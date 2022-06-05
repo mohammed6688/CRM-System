@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CRM-System.iml" filepath="$PROJECT_DIR$/CRM-System.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CRMSite/CRMSite.iml" filepath="$PROJECT_DIR$/CRMSite/CRMSite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CRM_API/CRM_API.iml" filepath="$PROJECT_DIR$/CRM_API/CRM_API.iml" />
+    </modules>
+  </component>
+</project>

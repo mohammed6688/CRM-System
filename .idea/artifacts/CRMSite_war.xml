@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="CRMSite:war">
+    <output-path>$PROJECT_DIR$/CRMSite/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>CRMSite</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="CRMSite-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="CRMSite:war exploded" />
+    </root>
+  </artifact>
+</component>
