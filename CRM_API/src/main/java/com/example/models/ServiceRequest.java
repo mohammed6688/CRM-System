@@ -1,16 +1,26 @@
 package com.example.models;
 
 public class ServiceRequest {
+    private int ID;
     private String SR_Classification;
     private String SR_Type;
     private String SR_Area;
     private String SR_SubArea;
 
-    public ServiceRequest(String SR_Classification, String SR_Type, String SR_Area, String SR_SubArea) {
+    public ServiceRequest(int ID, String SR_Classification, String SR_Type, String SR_Area, String SR_SubArea) {
+        this.ID = ID;
         this.SR_Classification = SR_Classification;
         this.SR_Type = SR_Type;
         this.SR_Area = SR_Area;
         this.SR_SubArea = SR_SubArea;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public void setSR_Classification(String SR_Classification) {
