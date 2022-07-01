@@ -1,60 +1,82 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-
-<%@ page import="java.util.*" %>
-<%@ page import="com.google.gson.Gson"%>
-<%@ page import="com.google.gson.JsonObject"%>
- 
-
-
-
 <%@ include file="header.html" %>
 <div class="main-page">
-<%
-Gson gsonObj = new Gson();
-Map<Object,Object> map = null;
-List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
- 
-map = new HashMap<Object,Object>(); map.put("label", "Health"); map.put("y", 35); map.put("exploded", true); list.add(map);
-map = new HashMap<Object,Object>(); map.put("label", "Finance"); map.put("y", 20); list.add(map);
-map = new HashMap<Object,Object>(); map.put("label", "Career"); map.put("y", 18); list.add(map);
-map = new HashMap<Object,Object>(); map.put("label", "Education"); map.put("y", 15); list.add(map);
-map = new HashMap<Object,Object>(); map.put("label", "Family"); map.put("y", 5); list.add(map);
-map = new HashMap<Object,Object>(); map.put("label", "Real Estate"); map.put("y", 7); list.add(map);
- 
-String dataPoints = gsonObj.toJson(list);
-%>
- 
-<script type="text/javascript">
-window.onload = function() { 
- 
-var chart = new CanvasJS.Chart("chartContainer", {
-	theme: "light2",
-	animationEnabled: true,
-	exportFileName: "New Year Resolutions",
-	exportEnabled: true,
-	title:{
-		text: "Top Categories of New Year's Resolution"
-	},
-	data: [{
-		type: "pie",
-		showInLegend: true,
-		legendText: "{label}",
-		toolTipContent: "{label}: <strong>{y}%</strong>",
-		indexLabel: "{label} {y}%",
-		dataPoints : <%out.print(dataPoints);%>
-	}]
-});
- 
-chart.render();
- 
-};
-</script>
+
+    <h1><center>Administration Home Page</center></h1>
+    <form id="searchBYNationalId">  
+
+        <div class="input-form">
+            <label for="nationalID">National ID</label>
+            <input type="number" placeholder="Enter National ID" name="cuid" required><br>
+        </div>
+
+        <div class="btns">
+            <button type="submit" class="btnSumbit">Search</button>   
+        </div>
+
+        <p id="error-login"></p>
+
+    </form>  
 
 </div>
-
-
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <%@ include file="footer.html" %>
+
+
+<script>
+    let form = document.getElementById("searchBYNationalId");
+
+    const submitvalidation = (e) => {
+        e.preventDefault();
+        // Get all field data from the form
+        let data = new FormData(form);
+        // Convert to a query string
+        queryString = "?" + new URLSearchParams(data).toString();
+
+        var url = "/postbaidSystem/CheckNationalId" + queryString;
+
+        if (window.XMLHttpRequest) {
+            request = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            request = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        try {
+            request.onreadystatechange = sendInfo;
+            request.open("POST", url, true);
+            request.send();
+
+        } catch (e) {
+            alert("Unable to connect server");
+        }
+    }
+
+
+
+    function sendInfo() {
+        if (request.readyState == 4) {
+            var res = request.responseText;
+            console.log(res)
+            if (request.responseText.split("___")[0] == "true") {
+
+                var url = "http://localhost:8080/postbaidSystem/detailsUser.jsp?id=" +
+                        request.responseText.split("___")[1] + "&name=" + request.responseText.split("___")[2]
+                        + "&email=" + request.responseText.split("___")[3];
+                window.location.replace(url);
+
+            } else
+            {
+                document.getElementById("error-login").innerHTML = request.responseText.split("___")[1];
+                document.getElementById("error-login").style.color = "red";
+
+            }
+
+        }
+    }
+    form.addEventListener("submit", submitvalidation);
+
+
+</script>
+
+
 <%@ include file="footerBody.html" %>
 
