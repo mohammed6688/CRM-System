@@ -3,7 +3,7 @@ package com.example.models;
 public class ServiceRequest {
     private int ID;
     private String SR_Classification;
-    private String SR_Type;
+    private String SR_Type; //team category
     private String SR_Area;
     private String SR_SubArea;
 
