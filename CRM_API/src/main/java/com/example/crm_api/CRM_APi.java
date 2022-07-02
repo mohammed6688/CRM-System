@@ -20,6 +20,15 @@ public class CRM_APi {
         return "Hello, World!";
     }
 
+    // support
+    @GET
+    @Path("/getTickets") @Produces("application/json")
+    public String getTicket (String data) throws SQLException {
+        DatabaseManagment DM = new DatabaseManagment();
+        Gson gson = new Gson();
+        IdForTeam teamID=gson.fromJson(data,IdForTeam.class);
+        return DM.viewTickets(teamID.ID);
+    }
     @POST
     @Path("/submitTicket") @Produces("application/json")
     public String SubmitATicket (String data) throws SQLException {
@@ -49,3 +58,11 @@ class CredentialsForLogin {
         this.password = password;
     }
 }
+    class IdForTeam {
+        int ID;
+
+        public IdForTeam(int ID) {
+            this.ID = ID;
+        }
+    }
+

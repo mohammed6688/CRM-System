@@ -1,9 +1,11 @@
 package com.example.database_management;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import com.example.models.Ticket;
 import com.google.gson.Gson;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -48,6 +50,37 @@ public class DatabaseManagment {
             TicketID = checkquery.getInt("ID");
         }
         return json.put("TicketID",TicketID).toString();
+    }
 
+    public String viewTickets (int TeamId) throws SQLException {
+        JSONObject json = new JSONObject();
+        ArrayList<Ticket> RetriedTickets = new ArrayList<>();
+        String result = "false";
+        int TicketID = 0 ;
+        PreparedStatement stmt = con.prepareStatement("select * from ticket inner join sr_subarea on ticket.sr_id = sr_subarea.id " +
+                                                        " inner join sr_area on  sr_subarea.area_id = sr_area.id" +
+                                                        " inner join sr_type on  sr_area.type_id = sr_type.id                           " +
+                                                        "where sr_type.sr_type = (select category from team where id = ?) ");
+
+        stmt.setInt(1,TeamId);
+        ResultSet rs = stmt.executeQuery();
+
+        return rsToJsonArray(rs).toString();
+    }
+    private JSONArray rsToJsonArray (ResultSet rs) throws SQLException {
+
+        JSONArray jsonArray = new JSONArray();
+
+        while (rs.next()) {
+
+            int columns = rs.getMetaData().getColumnCount();
+            JSONObject obj = new JSONObject();
+
+            for (int i = 0; i < columns; i++)
+                obj.put(rs.getMetaData().getColumnLabel(i + 1).toLowerCase(), rs.getObject(i + 1));
+
+            jsonArray.put(obj);
+        }
+        return jsonArray;
     }
 }
