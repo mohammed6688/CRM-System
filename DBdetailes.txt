@@ -1,0 +1,20 @@
+host 
+bqeanzizwzknlsga1loq-postgresql.services.clever-cloud.com
+
+DB name 
+bqeanzizwzknlsga1loq
+
+username
+uirb3exldinkfciyp3su
+
+password
+CPNJKCLLeaJCxNF5L3CZ
+
+
+----------------------------------------------------
+POSTGRESQL_ADDON_HOST=bqeanzizwzknlsga1loq-postgresql.services.clever-cloud.com
+POSTGRESQL_ADDON_DB=bqeanzizwzknlsga1loq
+POSTGRESQL_ADDON_USER=uirb3exldinkfciyp3su
+POSTGRESQL_ADDON_PORT=5432
+POSTGRESQL_ADDON_PASSWORD=CPNJKCLLeaJCxNF5L3CZ
+POSTGRESQL_ADDON_URI=postgresql://uirb3exldinkfciyp3su:CPNJKCLLeaJCxNF5L3CZ@bqeanzizwzknlsga1loq-postgresql.services.clever-cloud.com:5432/bqeanzizwzknlsga1loq
