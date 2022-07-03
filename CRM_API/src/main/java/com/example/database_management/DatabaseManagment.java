@@ -19,16 +19,16 @@ public class DatabaseManagment {
         JSONObject json = new JSONObject();
         String result = "false";
         int teamID =-1;
-        int level =-1;
+        String level ="-1";
         Statement sqlStmt = con.createStatement();
-        String checkQuery = "select * from employee where ID = '" + id + "'"
-                + "and password = '" + password + "'";
+        String checkQuery = "select e.team_id, t.level from employee e , team t where t.id = e.team_id and e.ID = '" + id + "'"
+                + "and e.password = '" + password + "'";
         ResultSet rs = sqlStmt.executeQuery(checkQuery);
 
         if (rs.next()) {
             result = "true";
             teamID = rs.getInt("team_id");
-            level = rs.getInt("level");
+            level = rs.getString("level");
         }
         json.put("login", result);
         json.put("teamID", teamID);
