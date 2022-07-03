@@ -72,6 +72,7 @@ public class DatabaseManagment {
            
         }
         return json.put("TicketID", TicketID).toString();
+
     }
 
     public String viewTickets(int TeamId) throws SQLException {

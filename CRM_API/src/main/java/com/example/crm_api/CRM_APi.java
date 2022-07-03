@@ -4,13 +4,11 @@ import com.example.database_management.DBConnection;
 import com.example.database_management.DatabaseManagment;
 import com.example.models.Ticket;
 import com.google.gson.Gson;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 
 import java.sql.SQLException;
 
+@ApplicationPath("/api")
 @Path("/CRM")
 public class CRM_APi {
     @GET
