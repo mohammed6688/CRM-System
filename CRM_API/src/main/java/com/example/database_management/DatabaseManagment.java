@@ -55,7 +55,7 @@ public class DatabaseManagment {
     public String viewTickets (int TeamId) throws SQLException {
         JSONObject json = new JSONObject();
         ArrayList<Ticket> RetriedTickets = new ArrayList<>();
-        String result = "false";
+
         int TicketID = 0 ;
         PreparedStatement stmt = con.prepareStatement("select * from ticket inner join sr_subarea on ticket.sr_id = sr_subarea.id " +
                                                         " inner join sr_area on  sr_subarea.area_id = sr_area.id" +
@@ -64,8 +64,8 @@ public class DatabaseManagment {
 
         stmt.setInt(1,TeamId);
         ResultSet rs = stmt.executeQuery();
-
-        return rsToJsonArray(rs).toString();
+        String result =rsToJsonArray(rs).toString();
+        return result;
     }
     private JSONArray rsToJsonArray (ResultSet rs) throws SQLException {
 

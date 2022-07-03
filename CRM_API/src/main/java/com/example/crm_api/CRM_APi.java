@@ -26,7 +26,8 @@ public class CRM_APi {
         DatabaseManagment DM = new DatabaseManagment();
         Gson gson = new Gson();
         IdForTeam teamID=gson.fromJson(data,IdForTeam.class);
-        return DM.viewTickets(teamID.ID);
+        String Result=DM.viewTickets(teamID.ID);
+        return Result;
     }
     @POST
     @Path("/submitTicket") @Produces("application/json")
