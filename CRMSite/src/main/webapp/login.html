@@ -10,6 +10,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <title>Login</title>  
         <link rel="stylesheet" href="style.css">
         <link rel="icon" href="https://logosvector.net/wp-content/uploads/2013/06/vodafone-plc-vector-logo-200x200.png">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
         <style>
             *{
@@ -73,6 +74,45 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
         </div>
     </body>
+<!--    <script src="jquery-1.7.1.js" type="text/javascript"></script>-->
+<!--    <script>-->
+<!--        $(document).ready(function () {-->
+<!--            $("#form_login_btn").click(function () {-->
+
+<!--                $.post('http://localhost:8081/CRM_API/api/CRM/Login',);-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+<!--    <script>-->
+<!--        $(document).ready(function () {-->
+<!--            $("#form_login_btn").click(function (event) {-->
+<!--                event.preventDefault();-->
+<!--                var url = "http://localhost:8081/CRM_API/api/CRM/Login";-->
+
+<!--                var xhr = new XMLHttpRequest();-->
+<!--                xhr.open("POST", url);-->
+
+<!--                xhr.setRequestHeader("Accept", "application/json");-->
+<!--                xhr.setRequestHeader("Content-Type", "application/json");-->
+<!--                xhr.setRequestHeader("Access-Control-Allow-Origin","*");-->
+<!--                xhr.onreadystatechange = function () {-->
+<!--                    if (xhr.readyState === 4) {-->
+<!--                        console.log(xhr.status);-->
+<!--                        console.log(xhr.responseText);-->
+<!--                    }-->
+<!--                };-->
+<!--                var id_var = $('#ID').val();-->
+<!--                var password_var = $('#password').val();-->
+<!--                var data = `{-->
+<!--  "ID": ` + id_var + `,-->
+<!--  "password": "` + password_var + `",-->
+<!--}`;-->
+<!--                if (id_var != '' && password_var != '') {-->
+
+<!--                    xhr.send(data);-->
+<!--                }-->
+<!--            })});-->
+<!--    </script>-->
     <script>
 
         $(document).ready(function () {
@@ -81,19 +121,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 var id_var = $('#ID').val();
                 var password_var = $('#password').val();
                 if (id_var !=''&&password_var!='') {
-                    var data = '{"ID": ' + id_var + ',"password":"' + password_var + '"}';
+                    var data = {"ID":  id_var ,"password":  password_var };
+                    JSON.stringify({ "ID": id_var , "password" : password_var});
                     $.ajax({
-                        type: "POST",
-                        enctype: 'multipart/form-data',
-                        url: "http://localhost:8081/CRM_API/api/Login",
-                        data: data,
-                        processData: false,
-                        contentType: false,
-                        cache: false,
+                        method : "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        url: "http://localhost:8081/CRM_API/api/CRM/Login",
+
+                       data: (data) ? JSON.stringify(data) : "",
                         success: function (data) {
                             console.log(data);
 
-
+// forword
                         },
                         error: function (resp) {
                             console.log(resp);
@@ -102,9 +142,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 }
             });
 
-            $(document).ajaxStop(function () {
-                window.location.reload();
-            });
+            // $(document).ajaxStop(function () {
+            //     window.location.reload();
+            // });
 
         });
     </script>

@@ -5,12 +5,31 @@ import com.example.database_management.DatabaseManagment;
 import com.example.models.Ticket;
 import com.google.gson.Gson;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import org.glassfish.jersey.message.XmlHeader;
 
 import java.sql.SQLException;
 
-@ApplicationPath("/api")
+//@ApplicationPath("/api")
+
 @Path("/CRM")
 public class CRM_APi {
+    @POST
+    @Path("/test")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Response index() {
+        return Response
+                .status(200)
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Credentials", "true")
+                .header("Access-Control-Allow-Headers",
+                        "origin, content-type, accept, authorization")
+                .header("Access-Control-Allow-Methods",
+                        "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+                .entity("")
+                .build();
+    }
     @GET
     @Path("/hello")@Produces("text/plain")
     public String hello() {
@@ -54,8 +73,11 @@ public class CRM_APi {
         Ticket ticket_recieved=gson.fromJson(data,Ticket.class);
         return DM.submitATicket(ticket_recieved);
     }
+
     @POST
     @Path("/Login") @Produces("application/json")
+    @Consumes("application/json")
+   // @XmlHeader("Access-Control-Allow-Origin")
     public String checkLogin (String credintials) throws SQLException {
         DBConnection.getCon();
         DatabaseManagment DM = new DatabaseManagment();

@@ -5,7 +5,7 @@
 package Config;
 
 import Database.DatabaseConnection;
-import javax.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServlet;
 
 
 /**
