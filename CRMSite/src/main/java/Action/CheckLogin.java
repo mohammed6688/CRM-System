@@ -26,21 +26,13 @@ public class CheckLogin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        HandleDB db = new HandleDB();
         PrintWriter pw = res.getWriter();
         String userName = req.getParameter("username");
         String password = req.getParameter("password");
-        boolean isLogin = db.checkLogin(userName, password);
-        if (isLogin) {
 
             HttpSession session = req.getSession(true);
             session.setAttribute("isAuth", "true");
             session.setAttribute("name", userName);
             pw.print("true");
-
-        } else {
-            pw.print("false");
-
-        }
     }
 }
