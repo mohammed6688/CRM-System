@@ -35,13 +35,22 @@ public class CRM_APi {
     public String hello() {
         return "Hello, World!";
     }
+    @GET
+    @Path("/getTicketByID") @Produces("application/json")
+    public String getTicketByID (String data) throws SQLException {
+        DatabaseManagment DM = new DatabaseManagment();
+        Gson gson = new Gson();
+        GenericId teamID=gson.fromJson(data,GenericId.class);
+        String Result=DM.getTicketById(teamID.ID);
+        return Result;
+    }
     //agents
     @GET
     @Path("/getOpenTicket") @Produces("application/json")
     public String getOpentTicket (String data) throws SQLException {
         DatabaseManagment DM = new DatabaseManagment();
         Gson gson = new Gson();
-        IdForTeam teamID=gson.fromJson(data,IdForTeam.class);
+        GenericId teamID=gson.fromJson(data,GenericId.class);
         String Result=DM.viewOpenTicket(teamID.ID);
         return Result;
     }
@@ -51,8 +60,8 @@ public class CRM_APi {
     public String getTicketHistory (String data) throws SQLException {
         DatabaseManagment DM = new DatabaseManagment();
         Gson gson = new Gson();
-        IdForTeam teamID=gson.fromJson(data,IdForTeam.class);
-        String Result=DM.viewOpenTicket(teamID.ID);
+        GenericId teamID=gson.fromJson(data,GenericId.class);
+        String Result=DM.viewTicketHistory(teamID.ID);
         return Result;
     }
     // support
@@ -61,7 +70,7 @@ public class CRM_APi {
     public String getTicket (String data) throws SQLException {
         DatabaseManagment DM = new DatabaseManagment();
         Gson gson = new Gson();
-        IdForTeam teamID=gson.fromJson(data,IdForTeam.class);
+        GenericId teamID=gson.fromJson(data,GenericId.class);
         String Result=DM.viewTickets(teamID.ID);
         return Result;
     }
@@ -72,6 +81,14 @@ public class CRM_APi {
         Gson gson = new Gson();
         Ticket ticket_recieved=gson.fromJson(data,Ticket.class);
         return DM.submitATicket(ticket_recieved);
+    }
+    @POST
+    @Path("/modifyTicket") @Produces("application/json")
+    public String modifyTicket (String data) throws SQLException {
+        DatabaseManagment DM = new DatabaseManagment();
+        Gson gson = new Gson();
+        Ticket ticket_recieved=gson.fromJson(data,Ticket.class);
+        return DM.modifyATicket(ticket_recieved);
     }
 
     @POST
@@ -87,6 +104,16 @@ public class CRM_APi {
         System.out.println(Clogin.password);
         return DM.verfiyLoginForREST(Clogin.ID, Clogin.password);
     }
+    @GET
+    @Path("/getClassifications") @Produces("application/json")
+    public String getClassifications () throws SQLException {
+        DatabaseManagment DM = new DatabaseManagment();
+        String Result =null;
+      //  String Result=DM.getClassifications();
+        return Result;
+    }
+
+
 }
 class CredentialsForLogin {
     int ID;
@@ -97,10 +124,10 @@ class CredentialsForLogin {
         this.password = password;
     }
 }
-    class IdForTeam {
+    class GenericId {
         int ID;
 
-        public IdForTeam(int ID) {
+        public GenericId(int ID) {
             this.ID = ID;
         }
     }

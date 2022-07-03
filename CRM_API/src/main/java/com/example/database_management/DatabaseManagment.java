@@ -73,12 +73,19 @@ public class DatabaseManagment {
                         +" submitted regarding "+Description
                         +" and the problem is being resolved within 48 working hours", to);
             SMS.startTicket(phone, TicketID, Description);
-           
+
         }
         return json.put("TicketID", TicketID).toString();
 
     }
-
+    public String getTicketById (int TicketId) throws SQLException {
+        System.out.println(TicketId);
+        PreparedStatement stmt = con.prepareStatement("select * from ticket where id = ? ");
+        stmt.setInt(1, TicketId);
+        ResultSet rs = stmt.executeQuery();
+        String result = rsToJson(rs).toString();
+        return result;
+    }
     public String viewTickets(int TeamId) throws SQLException {
         PreparedStatement stmt = con.prepareStatement("select * from ticket inner join sr_subarea on ticket.sr_id = sr_subarea.id "
                 + " inner join sr_area on  sr_subarea.area_id = sr_area.id"
@@ -90,10 +97,31 @@ public class DatabaseManagment {
         String result = rsToJsonArray(rs).toString();
         return result;
     }
-
-    public String viewOpenTicket(int CustomerId) throws SQLException {
+    public String  modifyATicket (Ticket ticket) throws SQLException {
         JSONObject json = new JSONObject();
-        int TicketID = 0;
+        PreparedStatement stmt = con.prepareStatement( "update ticket SET " +
+                "status=?," +
+                "description=?," +
+                "emp_id_for_management=?," +
+                "customer_notification=?," +
+                "is_notified=?," +
+                "notfication_detailes=?," +
+                "sr_id=?  RETURNING ID");
+        stmt.setString(1,ticket.getStatus());
+        stmt.setString(2,ticket.getDescription());
+        stmt.setInt(3,ticket.getEmp_id_for_management());
+        stmt.setBoolean(4,ticket.isCustomer_notification());
+        stmt.setBoolean(5,ticket.isIs_notified());
+        stmt.setString(6,ticket.getNotfication_detailes());
+        stmt.setInt(7,ticket.getSr_id());
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            TicketID = rs.getInt("ID");
+        }
+        return json.put("TicketID", TicketID).toString();
+    }
+    public String viewOpenTicket(int CustomerId) throws SQLException {
+
         PreparedStatement stmt = con.prepareStatement("select * from ticket where customer_id = ? and status = 'open' ");
 
         stmt.setInt(1, CustomerId);
@@ -102,7 +130,13 @@ public class DatabaseManagment {
         String result = rsToJson(rs).toString();
         return result;
     }
-
+    public String viewTicketHistory (int CustomerId) throws SQLException {
+        PreparedStatement stmt = con.prepareStatement("select * from history where customer_id = ?  ");
+        stmt.setInt(1, CustomerId);
+        ResultSet rs = stmt.executeQuery();
+        String result = rsToJsonArray(rs).toString();
+        return result;
+    }
     private JSONArray rsToJsonArray(ResultSet rs) throws SQLException {
 
         JSONArray jsonArray = new JSONArray();
