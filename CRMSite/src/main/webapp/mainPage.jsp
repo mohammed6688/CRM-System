@@ -2,7 +2,7 @@
 <%@ include file="header.html" %>
 <div class="main-page">
 
-    <h1><center>Administration Home Page</center></h1>
+<!--    <h1><center>Administration Home Page</center></h1>
     <form id="searchBYNationalId">  
 
         <div class="input-form">
@@ -16,7 +16,7 @@
 
         <p id="error-login"></p>
 
-    </form>  
+    </form>  -->
 
 </div>
 <%@ include file="footer.html" %>
