@@ -18,7 +18,26 @@ public class CRM_APi {
     public String hello() {
         return "Hello, World!";
     }
-
+    //agents
+    @GET
+    @Path("/getOpenTicket") @Produces("application/json")
+    public String getOpentTicket (String data) throws SQLException {
+        DatabaseManagment DM = new DatabaseManagment();
+        Gson gson = new Gson();
+        IdForTeam teamID=gson.fromJson(data,IdForTeam.class);
+        String Result=DM.viewOpenTicket(teamID.ID);
+        return Result;
+    }
+    //history
+    @GET
+    @Path("/getTicketHistory") @Produces("application/json")
+    public String getTicketHistory (String data) throws SQLException {
+        DatabaseManagment DM = new DatabaseManagment();
+        Gson gson = new Gson();
+        IdForTeam teamID=gson.fromJson(data,IdForTeam.class);
+        String Result=DM.viewOpenTicket(teamID.ID);
+        return Result;
+    }
     // support
     @GET
     @Path("/getTickets") @Produces("application/json")

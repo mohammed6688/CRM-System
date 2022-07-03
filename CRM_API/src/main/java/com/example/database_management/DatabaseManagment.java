@@ -19,6 +19,7 @@ public class DatabaseManagment {
         JSONObject json = new JSONObject();
         String result = "false";
         int teamID =-1;
+        int level =-1;
         Statement sqlStmt = con.createStatement();
         String checkQuery = "select * from employee where ID = '" + id + "'"
                 + "and password = '" + password + "'";
@@ -27,9 +28,11 @@ public class DatabaseManagment {
         if (rs.next()) {
             result = "true";
             teamID = rs.getInt("team_id");
+            level = rs.getInt("level");
         }
         json.put("login", result);
         json.put("teamID", teamID);
+        json.put("level",level);
         return json.toString();
 
     }
@@ -53,10 +56,6 @@ public class DatabaseManagment {
     }
 
     public String viewTickets (int TeamId) throws SQLException {
-        JSONObject json = new JSONObject();
-        ArrayList<Ticket> RetriedTickets = new ArrayList<>();
-
-        int TicketID = 0 ;
         PreparedStatement stmt = con.prepareStatement("select * from ticket inner join sr_subarea on ticket.sr_id = sr_subarea.id " +
                                                         " inner join sr_area on  sr_subarea.area_id = sr_area.id" +
                                                         " inner join sr_type on  sr_area.type_id = sr_type.id                           " +
@@ -65,6 +64,17 @@ public class DatabaseManagment {
         stmt.setInt(1,TeamId);
         ResultSet rs = stmt.executeQuery();
         String result =rsToJsonArray(rs).toString();
+        return result;
+    }
+    public String viewOpenTicket (int CustomerId) throws SQLException {
+        JSONObject json = new JSONObject();
+        int TicketID = 0 ;
+        PreparedStatement stmt = con.prepareStatement("select * from ticket where customer_id = ? and status = 'open' ");
+
+        stmt.setInt(1,CustomerId);
+        ResultSet rs = stmt.executeQuery();
+
+        String result =rsToJson(rs).toString();
         return result;
     }
     private JSONArray rsToJsonArray (ResultSet rs) throws SQLException {
@@ -82,5 +92,15 @@ public class DatabaseManagment {
             jsonArray.put(obj);
         }
         return jsonArray;
+    }
+    private JSONObject rsToJson (ResultSet rs) throws SQLException {
+        JSONObject obj = null;
+        while (rs.next()) {
+            int columns = rs.getMetaData().getColumnCount();
+                obj = new JSONObject();
+            for (int i = 0; i < columns; i++)
+                obj.put(rs.getMetaData().getColumnLabel(i + 1).toLowerCase(), rs.getObject(i + 1));
+        }
+        return obj;
     }
 }
