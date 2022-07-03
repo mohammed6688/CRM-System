@@ -24,9 +24,9 @@ import com.example.database_management.SMS;
 public class DatabaseManagment {
 
     private Connection con;
-    public static String fileNamePdf, to;
-    public static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
-    public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
+    public static String fileNamePdf, to, Description, phone;
+    public static int TicketID ;
+
 
     public DatabaseManagment() {
         con = DBConnection.getCon();
@@ -57,7 +57,7 @@ public class DatabaseManagment {
     public String submitATicket(Ticket TicketRecieved) throws SQLException {
         JSONObject json = new JSONObject();
         String result = "false";
-        int TicketID = 0;
+        
         PreparedStatement stmt = con.prepareStatement("insert into ticket (description , customer_id ,emp_id_for_creation ,sr_id)"
                 + " values (? , ? , ? , ? ) RETURNING ID");
         stmt.setString(1, TicketRecieved.getDescription());
@@ -68,7 +68,11 @@ public class DatabaseManagment {
         ResultSet checkquery = stmt.executeQuery();
         if (checkquery.next()) {
             TicketID = checkquery.getInt("ID");
-            sendemail();
+            sendemail( "Dear customer, we would like to inform you that your request has been"
+                        + " submitted with the number "+TicketID
+                        +" submitted regarding "+Description
+                        +" and the problem is being resolved within 48 working hours", to);
+            SMS.startTicket(phone, TicketID, Description);
            
         }
         return json.put("TicketID", TicketID).toString();
@@ -129,7 +133,7 @@ public class DatabaseManagment {
         return obj;
     }
 
-    public void sendemail() {
+    public void sendemail(String text , String to) {
 
         // Sender's email ID needs to be mentioned
         String from = "project.billingiti@gmail.com";
@@ -169,7 +173,7 @@ public class DatabaseManagment {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
             // Set Subject: header field
-            message.setSubject("Vodafone Monthly Bill");
+            message.setSubject("Vodafone CRM Team");
 
             Multipart multipart = new MimeMultipart();
 
@@ -180,7 +184,11 @@ public class DatabaseManagment {
             try {
 
                 attachmentPart.attachFile(fileNamePdf);
-                textPart.setText("We would like to inform you that it is time to pay the monthly bill, please find the file attached to the mail. For more information, please contact us.");
+                textPart.setText(text);
+//                "Dear customer, we would like to inform you that your request has been"
+//                        + " submitted with the number "+TicketID
+//                        +" submitted regarding "+Description
+//                        +" and the problem is being resolved within 48 working hours");
                 multipart.addBodyPart(textPart);
                 multipart.addBodyPart(attachmentPart);
 
