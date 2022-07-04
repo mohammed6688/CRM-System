@@ -13,41 +13,39 @@
 <div class="viewUsers">
     <h1><center>All Tickets</center></h1>
 
-    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+<%--    <input class="form-control" id="myInput" type="text" placeholder="Search..">--%>
 
 <%
 //    System.out.println(request.getParameter("c"));
     if(request.getParameter("c").equalsIgnoreCase("t")){
 %>
 
-    <form id = "statusTicket" class="input-form" action="/#">
-        <label for="status" >Ticket Status</label><br>
-        <select class="form-control" name="status" id="status">
+<%--    <form id="statusTicket" class="input-form" action="/#">--%>
+        <label for="status" >Ticket Status</label>
+        <select class="form-control  w-25" name="status" id="status">
             <option value="Open">Open</option>
             <option value="Close">Close</option>
         </select>
-        <input type="submit" value="Submit">
-    </form>
+<%--        <input type="submit" value="Submit">--%>
+<%--    </form>--%>
     <%
         }
     %>
     <table class="table table-hover" id="ticket">
         <thead>
         <tr>
-            <th>sr_id</th>
+            <th>id</th>
             <th>emp_id_for_creation</th>
             <th>description</th>
             <th>time_created</th>
-            <th>id</th>
+            <th>sr_id</th>
             <th>customer_id</th>
             <th>status</th>
             <th>customer_notification</th>
+            <th>modify</th>
         </tr>
         </thead>
-        <tbody id="myTable">
-<%--        <tr>--%>
-<%--            <td><%=customer.getId()%></td>--%>
-<%--        </tr>--%>
+        <tbody id="bodyTable">
         </tbody>
     </table>
 </div>
@@ -58,10 +56,13 @@
     let select = document.getElementById('status');
     let table = document.getElementById('ticket');
     getTickets();
-    $("#statusTicket").click(function (event) {
-        event.preventDefault();
-        getTickets();
-    });
+    // $("#statusTicket").click(function (event) {
+    //     event.preventDefault();
+    //     getTickets();
+    // });
+
+
+
 
 
     function getTickets() {
@@ -71,9 +72,9 @@
         xhttp.onload = function () {
             var res = JSON.parse(this.responseText);
             console.log(res)
-
+table.innerHTML="<thead><tr> <th>id</th> <th>emp_id_for_creation</th> <th>description</th><th>time_created</th> <th>sr_id</th><th>customer_id</th> <th>status</th> <th>customer_notification</th><th>modify</th></tr></thead><tbody id='bodyTable'></tbody>";
             res.map(val => {
-                var row = table.insertRow(0);
+                var row = table.insertRow(-1);
 
                 var id = row.insertCell(0);
                 var emp_id_for_creation = row.insertCell(1);
@@ -83,6 +84,7 @@
                 var customer_id = row.insertCell(5);
                 var status = row.insertCell(6);
                 var customer_notification = row.insertCell(7);
+                var modify = row.insertCell(8);
 
                 sr_id.innerHTML = val.sr_id;
                 emp_id_for_creation.innerHTML = val.emp_id_for_creation;
@@ -92,6 +94,7 @@
                 customer_id.innerHTML = val.customer_id;
                 status.innerHTML = val.status;
                 customer_notification.innerHTML = val.customer_notification;
+                modify.innerHTML = "<a href="editTicket.jsp"></a>";
 
             })
         }
@@ -113,16 +116,19 @@
 
         xhttp.open("POST", url, true);
         xhttp.setRequestHeader("Content-type", "application/json");
-        xhttp.send(JSON.stringify({"id": id}));
+        xhttp.send(JSON.stringify({"ID": id}));
 
 
     }
 
-
     $(document).ready(function () {
+
+        $('#status').on('change', getTickets);
+
+
         $("#myInput").on("keyup", function () {
             var value = $(this).val().toLowerCase();
-            $("#myTable tr").filter(function () {
+            $("#bodyTable tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
