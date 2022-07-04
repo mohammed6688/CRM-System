@@ -15,6 +15,9 @@
         <url-pattern>/addOneTimeFeeFormat.jsp</url-pattern>
         <url-pattern>/viewOneTimeFee.jsp</url-pattern>
         <url-pattern>/viewAllRecurring.jsp</url-pattern>
+        <url-pattern>/addTicket.jsp</url-pattern>
+        <url-pattern>/history.jsp</url-pattern>
+
     </filter-mapping>
     <listener>
         <description>ServletContextListener</description>

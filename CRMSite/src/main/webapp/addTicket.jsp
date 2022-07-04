@@ -9,112 +9,89 @@
 
 <div class="addUser-form">
 
-    <form id = "selected" class="input-form" action="/#">
+    <form id = "submit-ticket" class="input-form" action="/#">
         <label for="msisdn">MSISDN:</label><br>
         <input type="text" disabled value=<%=request.getParameter("msisdn")%>  name="msisdn" placeholder="010..."><br>
 
-        <input type="hidden" disabled value=<%=request.getParameter("cid")%>  name="customer_id" placeholder="010..."><br>
+        <input type="hidden" disabled value=<%=request.getParameter("cid")%>  id="customer_id" name="customer_id" placeholder="010..."><br>
 
-        <input type="hidden" disabled value=<%=session.getAttribute("id")%>  name="emp_id_for_creation" placeholder="010..."><br>
+        <input type="hidden" disabled value=<%=session.getAttribute("id")%> id="emp_id_for_creation" name="emp_id_for_creation" placeholder="010..."><br>
 
         <label for="classification">Classification: </label><br>
-        <select name="classification" id="classification">
-                <option value="technical">Technical</option>
-                <option value="finance">Finance</option>
+        <select class="form-control" name="classification" id="classification">
+            <option value=""></option>
+
         </select><br>
 
         <label for="type">Type: </label><br>
-        <select name="type">
-            <option value="technical">Technical</option>
-            <option value="finance">Finance</option>
+        <select class="form-control" name="type" id="type">
+            <option value=""></option>
         </select><br>
 
 
         <label for="area">Area: </label><br>
-        <select name="area">
-            <optgroup label="Technical">
-                <option value="netowrk">Network</option>
-                <option value="ran">Radio Access Network</option>
-            </optgroup>
-            <optgroup label="Finance">
-                <option value="invoice">Invoice</option>
-                <option value="issue">Issue</option>
-            </optgroup>
+        <select class="form-control" name="area" id="area">
+            <option value=""></option>
         </select>
         <br>
-        <label for="area">Sub-Area: </label><br>
-        <select name="sub-area">
-            <optgroup label="Network">
-                <option value="4g">Can't Switch to 4G</option>
-                <option value="data">Can't Use Mobile Data</option>
-            </optgroup>
-            <optgroup label="Radio Access Netowrk">
-                <option value="txCall">Can't Make Call</option>
-                <option value="txSms">Can't Send SMS</option>
-                <option value="rxCall">Can't Receive Call</option>
-                <option value="rxSms">Can't Receive SMS</option>
-            </optgroup>
-            
-            <optgroup label="Invoice">
-                <option value="incorrect">Invoice Incorrect</option>
-                <option value="missed">Did not Receive it</option>
-            </optgroup>
-            <optgroup label="Issue">
-                <option value="asset">Can't Buy Product</option>
-                <option value="vodafoneCash">Can't Take Money from ATM</option>
-            </optgroup>
+        <label for="sub-area" >Sub-Area: </label><br>
+        <select class="form-control" name="sub-area" id="sub-area">
+            <option value=""></option>
         </select>
         <br>
         Description: <br>
-        <textarea name="description" placeholder="Please Put a description to help other teams" minlength="25" maxlength="200" rows="5" cols="100"></textarea>
+        <textarea name="description" id="description" placeholder="Please Put a description to help other teams" minlength="25" maxlength="200" rows="5" cols="100"></textarea>
         <br>
         <input type="submit" value="Submit">
     </form>
 </div>
 <%@ include file="footer.html" %>
 <script>
+    select = document.getElementById('classification');
+    selectType = document.getElementById('type');
+    selectArea = document.getElementById('area');
+    selectSubArea = document.getElementById('sub-area');
 
+    // request to get all classification
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {
+        var res = JSON.parse(this.responseText);
+        console.log(res)
+
+        res.map(val => {
+            var opt = document.createElement('option');
+            opt.value = val.id;
+            opt.innerHTML = val.sr_classification;
+            select.appendChild(opt);
+        })
+    }
+    xhttp.open("POST", "http://localhost:8081/CRM_API/api/CRM/getClassifications");
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send();
+
+
+    function clearData(selectToClear) {
+        var opt = document.createElement('option');
+        selectToClear.innerHTML = "";
+        opt.value = "";
+        opt.innerHTML = "";
+        selectToClear.appendChild(opt);
+    }
 
     $(document).ready(function () {
 
-
-        $.ajax({
-            method : "POST",
-            dataType: "json",
-            url: "http://localhost:8081/CRM_API/api/CRM/Login",
-            xhrField:{
-                withCredentials:'false',
-            },
-            headers:{
-
-            },
-            success: function (data) {
-                console.log(data);
-
-// forword
-            },
-            error: function (resp) {
-                console.log(resp);
-            }
-        });
-
-
-
-
-
-        $("#classification").click(function (event) {
-            event.preventDefault();
-            var id_var = $('#ID').val();
-            var password_var = $('#password').val();
-            if (id_var !=''&&password_var!='') {
-                var data = {"ID":  id_var ,"password":  password_var };
-                JSON.stringify({ "ID": id_var , "password" : password_var});
+        $('#classification').on('change', function () {
+            clearData(selectType);
+            clearData(selectArea);
+            clearData(selectSubArea);
+            var classification_id = $(this).val(); // get selected value
+            if (classification_id !='') {
+                var data = {"ID":  classification_id};
                 $.ajax({
                     method : "POST",
                     dataType: "json",
-
                     data:JSON.stringify(data),
-                    url: "http://localhost:8081/CRM_API/api/CRM/Login",
+                    url: "http://localhost:8081/CRM_API/api/CRM/getType",
                     xhrField:{
                         withCredentials:'false',
                     },
@@ -125,54 +102,143 @@
 
                     success: function (data) {
                         console.log(data);
-                        if(data.login=="true")
-                        {
-                            queryString = "?" + "level="+data.level+"&teamID="+data.teamID+"&id="+id_var;
-                            var url = "/CRMSite/CheckLogin" + queryString;
 
-                            if (window.XMLHttpRequest) {
-                                request = new XMLHttpRequest();
-                            } else if (window.ActiveXObject) {
-                                request = new ActiveXObject("Microsoft.XMLHTTP");
-                            }
-
-                            try {
-                                request.onreadystatechange = sendInfo;
-                                request.open("POST", url, true);
-                                request.send();
-
-                            } catch (e) {
-                                alert("Unable to connect server");
-                            }
-                            function sendInfo() {
-                                if (request.readyState == 4) {
-                                    //            var res = JSON.parse(request.responseText);
-                                    if (request.responseText == "true") {
-                                        window.location.replace("http://localhost:8080/CRMSite/mainPage.jsp");
-                                    } else {
-                                        document.getElementById("error-login").innerHTML = "Wrong user name or password ";
-                                    }
-                                }
-                            }
-
-                        }
-                        else{
-                            document.getElementById("error-login").innerHTML = "Wrong user name or password "
-                        }
+                        data.map(val => {
+                            var opt = document.createElement('option');
+                            opt.value = val.id;
+                            opt.innerHTML = val.sr_type;
+                            selectType.appendChild(opt);
+                        })
 
 // forword
                     },
                     error: function (resp) {
                         console.log(resp);
-                        document.getElementById("error-login").innerHTML = "Wrong user name or password "
+                        clearData(selectType);
+
+                    }
+                });
+            }
+
+        });
+
+        $('#type').on('change', function () {
+            clearData(selectArea);
+            clearData(selectSubArea);
+            var id = $(this).val(); // get selected value
+            if (id !='') {
+                var data = {"ID":  id};
+                $.ajax({
+                    method : "POST",
+                    dataType: "json",
+                    data:JSON.stringify(data),
+                    url: "http://localhost:8081/CRM_API/api/CRM/getArea",
+                    xhrField:{
+                        withCredentials:'false',
+                    },
+                    headers:{
+
+                    },
+                    contentType: "application/json",
+
+                    success: function (data) {
+                        console.log(data);
+
+                        data.map(val => {
+                            var opt = document.createElement('option');
+                            opt.value = val.id;
+                            opt.innerHTML = val.sr_area;
+                            selectArea.appendChild(opt);
+                        })
+
+// forword
+                    },
+                    error: function (resp) {
+                        clearData(selectArea);
+                        console.log(resp);
+                    }
+                });
+            }
+
+        });
+
+        $('#area').on('change', function () {
+            clearData(selectSubArea);
+            var id = $(this).val(); // get selected value
+            if (id !='') {
+                var data = {"ID":  id};
+                $.ajax({
+                    method : "POST",
+                    dataType: "json",
+                    data:JSON.stringify(data),
+                    url: "http://localhost:8081/CRM_API/api/CRM/getSubArea",
+                    xhrField:{
+                        withCredentials:'false',
+                    },
+                    headers:{
+
+                    },
+                    contentType: "application/json",
+
+                    success: function (data) {
+                        console.log(data);
+
+                        data.map(val => {
+                            var opt = document.createElement('option');
+                            opt.value = val.id;
+                            opt.innerHTML = val.sr_subarea;
+                            selectSubArea.appendChild(opt);
+                        })
+
+// forword
+                    },
+                    error: function (resp) {
+                        clearData(selectSubArea);
+                        console.log(resp);
+                    }
+                });
+            }
+
+        });
+
+
+        $("#submit-ticket").click(function (event) {
+            event.preventDefault();
+
+            var emp_id_for_creation = $('#emp_id_for_creation').val();
+            var description = $('#description').val();
+            var sr_id = $('#sub-area').val();
+            var customer_id = $('#customer_id').val();
+
+            if (emp_id_for_creation !=''&&description!=''&&sr_id!=''&&customer_id!='') {
+                var data = {"emp_id_for_creation":  emp_id_for_creation ,"description":  description,
+                    "sr_id":  sr_id,"customer_id":  customer_id, };
+                $.ajax({
+                    method : "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+
+                    data:JSON.stringify(data),
+                    url: "http://localhost:8081/CRM_API/api/CRM/submitTicketsubmitTicket",
+                    xhrField:{
+                        withCredentials:'false',
+                    },
+                    headers:{
+
+                    },
+
+                    success: function (data) {
+                        alert("Ticket number : "+ data.)
+                        console.log(data);
+                    },
+                    error: function (resp) {
+                        console.log(resp);
                     }
                 });
             }
         });
 
-        // $(document).ajaxStop(function () {
-        //     window.location.reload();
-        // });
+
 
     });
 
