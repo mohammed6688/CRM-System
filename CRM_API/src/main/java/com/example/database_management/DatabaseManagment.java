@@ -8,12 +8,15 @@ import org.json.JSONObject;
 
 public class DatabaseManagment {
 
-    private final Connection con;
-    public static String fileNamePdf, to, Description, phone;
+    private  Connection con;
+    private  Connection Billingcon;
+
+    public static String  to , Description, phone;
     public static int TicketID;
 
     public DatabaseManagment() {
         con = DBConnection.getCon();
+        Billingcon = DBConnection.getBillingCon();
     }
 
     public String verfiyLoginForREST(int id, String password) throws SQLException {
@@ -40,7 +43,8 @@ public class DatabaseManagment {
 
     public String submitATicket(Ticket TicketRecieved) throws SQLException {
         JSONObject json = new JSONObject();
-
+        to= (String) getEmailandMSISDN(TicketRecieved.getCustomer_id()).get("email");
+        phone= (String) getEmailandMSISDN(TicketRecieved.getCustomer_id()).get("msisdn");
         PreparedStatement stmt = con.prepareStatement("insert into ticket (description , customer_id ,emp_id_for_creation ,sr_id)"
                 + " values (? , ? , ? , ? ) RETURNING ID");
         stmt.setString(1, TicketRecieved.getDescription());
@@ -49,6 +53,7 @@ public class DatabaseManagment {
         stmt.setInt(4, TicketRecieved.getSr_id());
 
         ResultSet checkquery = stmt.executeQuery();
+        Description = TicketRecieved.getDescription();
         if (checkquery.next()) {
             TicketID = checkquery.getInt("ID");
             Email.sendemail("Dear customer, we would like to inform you that your request has been"
@@ -83,6 +88,8 @@ public class DatabaseManagment {
 
     public String  modifyATicket (Ticket ticket) throws SQLException {
         JSONObject json = new JSONObject();
+        to= (String) getEmailandMSISDN(ticket.getCustomer_id()).get("email");
+        phone= (String) getEmailandMSISDN(ticket.getCustomer_id()).get("msisdn");
         PreparedStatement stmt = con.prepareStatement( "update ticket SET " +
                 "status=?," +
                 "description=?," +
@@ -121,7 +128,7 @@ public class DatabaseManagment {
         stmt.setInt(1, CustomerId);
         ResultSet rs = stmt.executeQuery();
 
-        String result = rsToJson(rs).toString();
+        String result = rsToJsonArray(rs).toString();
         return result;
     }
     public String viewTicketHistory (int CustomerId) throws SQLException {
@@ -186,6 +193,18 @@ public class DatabaseManagment {
             }
         }
         return obj;
+    }
+    private JSONObject getEmailandMSISDN (int customer_ID) throws SQLException {
+        String email =null;
+        JSONObject jsonObject =new JSONObject();
+        PreparedStatement stmt = Billingcon.prepareStatement("select cr.email,co.msisdn from contract as co inner join customer as cr on co.cu_id = cr.cu_id where co.con_id = ?  ");
+        stmt.setInt(1, customer_ID);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            jsonObject.put("email",rs.getString("email"));
+            jsonObject.put("msisdn",rs.getString("msisdn"));
+        }
+        return jsonObject;
     }
 
    
