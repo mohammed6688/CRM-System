@@ -16,29 +16,29 @@ public class SMS {
     private static final String ACCOUNT_SID = "AC5136320a729813730fe3a47285a31886";
     private static final String AUTH_TOKEN = "d81d293af4a29be85cc469f4041edfae";
 
-   public static void startTicket(String num, int tck, String text) {
+    public static void startTicket(String num, int tck, String text) {
 
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
                 new com.twilio.type.PhoneNumber(num),
                 new com.twilio.type.PhoneNumber("+16073035175"),
-                "Dear customer, we would like to inform you that your request has been submitted with the number "+tck
-                        +" submitted regarding "+text
-                        +" and the problem is being resolved within 48 working hours")
+                "Dear customer, we would like to inform you that your request has been submitted with the number " + tck
+                + " submitted regarding " + text
+                + " and the problem is being resolved within 48 working hours")
                 .create();
 
         System.out.println(message.getSid());
     }
-   
-   public static void endTicket(String num, int tck, String text) {
+
+    public static void endTicket(String num, int tck, String text) {
 
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
                 new com.twilio.type.PhoneNumber(num),
                 new com.twilio.type.PhoneNumber("+16073035175"),
-                "Dear customer, we would like to inform you that your request has been submitted with the number "+tck
-                        +" submitted regarding "+text
-                        +" and the problem is being resolved within 48 working hours")
+                "Dear customer, we would like to inform you that your request has been submitted with the number " + tck
+                + " submitted regarding " + text
+                + " and the problem is being resolved within 48 working hours")
                 .create();
 
         System.out.println(message.getSid());

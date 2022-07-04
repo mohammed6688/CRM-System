@@ -1,10 +1,8 @@
 package com.example.database_management;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 import com.example.models.Ticket;
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.Properties;
 import javax.mail.Message;
@@ -19,14 +17,12 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import com.example.database_management.SMS;
 
 public class DatabaseManagment {
 
-    private Connection con;
+    private final Connection con;
     public static String fileNamePdf, to, Description, phone;
-    public static int TicketID ;
-
+    public static int TicketID;
 
     public DatabaseManagment() {
         con = DBConnection.getCon();
@@ -56,8 +52,7 @@ public class DatabaseManagment {
 
     public String submitATicket(Ticket TicketRecieved) throws SQLException {
         JSONObject json = new JSONObject();
-        String result = "false";
-        
+
         PreparedStatement stmt = con.prepareStatement("insert into ticket (description , customer_id ,emp_id_for_creation ,sr_id)"
                 + " values (? , ? , ? , ? ) RETURNING ID");
         stmt.setString(1, TicketRecieved.getDescription());
@@ -68,12 +63,12 @@ public class DatabaseManagment {
         ResultSet checkquery = stmt.executeQuery();
         if (checkquery.next()) {
             TicketID = checkquery.getInt("ID");
-            sendemail( "Dear customer, we would like to inform you that your request has been"
-                        + " submitted with the number "+TicketID
-                        +" submitted regarding "+Description
-                        +" and the problem is being resolved within 48 working hours", to);
+            sendemail("Dear customer, we would like to inform you that your request has been"
+                    + " submitted with the number " + TicketID
+                    + " submitted regarding " + Description
+                    + " and the problem is being resolved within 48 working hours", to);
             SMS.startTicket(phone, TicketID, Description);
-           
+
         }
         return json.put("TicketID", TicketID).toString();
 
@@ -92,8 +87,7 @@ public class DatabaseManagment {
     }
 
     public String viewOpenTicket(int CustomerId) throws SQLException {
-        JSONObject json = new JSONObject();
-        int TicketID = 0;
+//        JSONObject json = new JSONObject();
         PreparedStatement stmt = con.prepareStatement("select * from ticket where customer_id = ? and status = 'open' ");
 
         stmt.setInt(1, CustomerId);
@@ -133,7 +127,7 @@ public class DatabaseManagment {
         return obj;
     }
 
-    public void sendemail(String text , String to) {
+    public void sendemail(String text, String to) {
 
         // Sender's email ID needs to be mentioned
         String from = "project.billingiti@gmail.com";
@@ -205,6 +199,4 @@ public class DatabaseManagment {
         }
     }
 
-    
 }
-
