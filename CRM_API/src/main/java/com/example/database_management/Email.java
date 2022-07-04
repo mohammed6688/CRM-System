@@ -65,21 +65,21 @@ private static final String PASS = "123456789billing";
             // Set Subject: header field
             message.setSubject("Vodafone CRM Team");
 
-            Multipart multipart = new MimeMultipart();
+//            Multipart multipart = new MimeMultipart();
+//
+////            MimeBodyPart attachmentPart = new MimeBodyPart();
+//            MimeBodyPart textPart = new MimeBodyPart();
+//
+//            //                attachmentPart.attachFile(fileNamePdf);
+//            textPart.setText(text);
+//            //                "Dear customer, we would like to inform you that your request has been"
+////                        + " submitted with the number "+TicketID
+////                        +" submitted regarding "+Description
+////                        +" and the problem is being resolved within 48 working hours");
+//            multipart.addBodyPart(textPart);
+////                multipart.addBodyPart(attachmentPart);
 
-//            MimeBodyPart attachmentPart = new MimeBodyPart();
-            MimeBodyPart textPart = new MimeBodyPart();
-
-            //                attachmentPart.attachFile(fileNamePdf);
-            textPart.setText(text);
-            //                "Dear customer, we would like to inform you that your request has been"
-//                        + " submitted with the number "+TicketID
-//                        +" submitted regarding "+Description
-//                        +" and the problem is being resolved within 48 working hours");
-            multipart.addBodyPart(textPart);
-//                multipart.addBodyPart(attachmentPart);
-
-            message.setContent(multipart);
+            message.setText(text);
 
             System.out.println("sending...");
             // Send message
