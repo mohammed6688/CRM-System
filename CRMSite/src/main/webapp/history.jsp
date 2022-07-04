@@ -102,8 +102,11 @@ console.log(val.id);
         const Iscontract = urlParams.get('c')
 
         var url = "http://localhost:8081/CRM_API/api/CRM/getTickets";
+        <% int levelTeam = Integer.parseInt((String) session.getAttribute("level"));%>
+        var sendData = {"ID": id,"level":<%=levelTeam%>}
 
         if (Iscontract == "t") {
+             sendData = {"ID": id}
             if (select.value == "Open")
                 url = "http://localhost:8081/CRM_API/api/CRM/getOpenTicket";
             else
@@ -113,7 +116,7 @@ console.log(val.id);
 
         xhttp.open("POST", url, true);
         xhttp.setRequestHeader("Content-type", "application/json");
-        xhttp.send(JSON.stringify({"ID": id}));
+        xhttp.send(JSON.stringify(sendData));
 
 
     }

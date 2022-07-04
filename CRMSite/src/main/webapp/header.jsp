@@ -31,7 +31,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <!-- Links -->
                 <ul class="navbar-nav">
                     <% int level = Integer.parseInt((String) session.getAttribute("level"));
-                    System.out.println(level); %>
+                    %>
 
                     <li class="nav-item">
                         <a class="nav-link" href="addUserForm.jsp">Add user</a>
@@ -52,19 +52,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <a class="nav-link" href="listInvoice.jsp">List Invoices</a>
                     </li>
 
+                    <%  if(level == 3 ) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="addRatePlan.jsp">Add Rate Plan</a>
+                        </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link" href="addOneTimeFeeFormat.jsp">Add One Time Fee</a>
+                        </li>
+                    <% }%>
                     <%  if(level > 0 ) { %>
                     <li class="nav-item">
                         <a class="nav-link" href="viewUser.jsp">List Users</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="addRatePlan.jsp">Add Rate Plan</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="addOneTimeFeeFormat.jsp">Add One Time Fee</a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="history.jsp?id=<%=session.getAttribute("teamID")%>&c=f"  >Work</a>

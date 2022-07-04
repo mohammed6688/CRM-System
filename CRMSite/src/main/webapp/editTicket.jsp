@@ -34,6 +34,11 @@
         </div>
 
         <div class="input-form">
+            <label for="level">Level</label>
+            <input type="number" placeholder="Enter Level" min="1" max="3" name="level" id="level" required><br>
+        </div>
+
+        <div class="input-form">
             <label for="notfication_detailes">Notfication Detailes</label>
             <input type="text" placeholder="Enter >Notfication Detailes" name="notfication_detailes"  id="notfication_detailes"required><br>
         </div>
@@ -85,10 +90,11 @@
     let setcustomer_notification = document.getElementById('customer_notification');
     let setis_notified= document.getElementById('is_notified');
     let setstatus = document.getElementById('status');
+    let setlevel = document.getElementById('level');
 
     // request to get data for specific ticket id
     const xhttp = new XMLHttpRequest();
-    const queryString = window.location.search;
+    let queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get('id');
     xhttp.onload = function() {
@@ -102,6 +108,7 @@
         setcustomer_notification.value = res.customer_notification;
         setis_notified.value = res.is_notified || "false";
         setstatus.value = res.status;
+        setlevel.value = res.level;
 
 
     }
@@ -120,10 +127,12 @@
             var is_notified = $('#is_notified').val();
             var status = $('#status').val();
             var notfication_detailes = $('#notfication_detailes').val();
+            var level = $('#level').val();
+
 
             if (ID !=''&&sr_id!=''&&sr_id!=''&&description!=''&&sr_id!=''&&emp_id_for_management!=''&&customer_notification!=''&&is_notified!=''&&status!=''&&notfication_detailes!='') {
                 var data = {"id":  ID ,"sr_id":  sr_id,"description":  description,"emp_id_for_management":  emp_id_for_management
-                    ,"customer_notification":  customer_notification,"is_notified":  is_notified,"status":  status,"notfication_detailes":notfication_detailes };
+                    ,"customer_notification":  customer_notification,"is_notified":  is_notified,"status":  status,"notfication_detailes":notfication_detailes,"level":level };
                 $.ajax({
                     method : "POST",
                     contentType: "application/json; charset=utf-8",
