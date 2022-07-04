@@ -126,7 +126,7 @@
                 <a href="addTicket.jsp?cid=<%=contract.getId()%>&msisdn=<%=contract.getMsisdn()%>" class="btn btn-dark" role="button">Open The Ticket</a>
 
 
-                <a href="history.jsp?cid=<%=contract.getId()%>&msisdn=<%=contract.getMsisdn()%>" class="btn btn-dark" role="button">Show Tickets</a>
+                <a href="history.jsp?id=<%=contract.getId()%>&c=t" class="btn btn-dark" role="button">Show Tickets</a>
 
 
 

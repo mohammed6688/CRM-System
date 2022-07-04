@@ -53,7 +53,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="history.jsp">History</a>
+                        <a class="nav-link" href="history.jsp?id=<%=session.getAttribute("teamID")%>&c=f"  >History</a>
+
                     </li>
 
 

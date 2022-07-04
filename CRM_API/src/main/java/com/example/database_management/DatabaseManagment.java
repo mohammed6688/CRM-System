@@ -8,8 +8,8 @@ import org.json.JSONObject;
 
 public class DatabaseManagment {
 
-    private  Connection con;
-    private  Connection Billingcon;
+    private static Connection con;
+    private static Connection Billingcon;
 
     public static String  to , Description, phone;
     public static int TicketID;
