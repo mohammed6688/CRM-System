@@ -59,7 +59,7 @@
             <label for="status">Status</label>
             <select class="form-control" name="status" id="status">
                 <option value="open">open</option>
-                <option value="close">close</option>
+                <option value="closed">closed</option>
             </select>
         </div>
 

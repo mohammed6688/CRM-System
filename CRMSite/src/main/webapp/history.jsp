@@ -20,7 +20,7 @@
         <label for="status" >Ticket Status</label>
         <select class="form-control  w-25" name="status" id="status">
             <option value="Open">Open</option>
-            <option value="Close">Close</option>
+            <option value="Closed">Closed</option>
         </select>
 <%--        <input type="submit" value="Submit">--%>
 <%--    </form>--%>
