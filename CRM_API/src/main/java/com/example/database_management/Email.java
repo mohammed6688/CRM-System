@@ -21,8 +21,8 @@ import javax.mail.internet.MimeMultipart;
  * @author Mustafa Raed
  */
 public class Email {
-private static final String FROM = "project.billingiti@gmail.com";
-private static final String PASS = "123456789billing";
+private static final String FROM = "crmteam.iti@gmail.com";
+private static final String PASS = "123456crmteam@";
     public static void sendemail(String text, String to) {
 
         // Sender's email ID needs to be mentioned
@@ -46,7 +46,7 @@ private static final String PASS = "123456789billing";
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication(FROM, PASS);
+                return new PasswordAuthentication("project.billingiti@gmail.com", "123456789billing");
 
             }
 

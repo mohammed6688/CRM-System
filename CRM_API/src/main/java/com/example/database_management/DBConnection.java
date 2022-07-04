@@ -6,7 +6,8 @@ import java.sql.DriverManager;
 public class DBConnection {
     private static Connection con;
     private static Connection billingCon;
-    public static Connection createConnection(String dbURL, String dbusername, String dbPassword,Connection connection) {
+    public static Connection createConnection(String dbURL, String dbusername, String dbPassword) {
+        Connection  connection =null;
         try {
             Class.forName("org.postgresql.Driver");
             //   con=DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/ecommerce", dbusername, dbPassword);
@@ -28,10 +29,11 @@ public class DBConnection {
 
         String DBUsereName="uirb3exldinkfciyp3su";
         String Password = "CPNJKCLLeaJCxNF5L3CZ";
-
-        return DBConnection.createConnection(DBUrl,DBUsereName,Password,con);
+        DBConnection.con=DBConnection.createConnection(DBUrl,DBUsereName,Password);
+        return con;
     }
     public static Connection getCon (){
+        System.out.println("con before null condition "+con);
         if (con != null){
             return con;
         }else
@@ -46,8 +48,8 @@ public class DBConnection {
 
         String DBUsereName="ual1kyfaaahzvalnqmv6";
         String Password = "s4ZDx5MEiWCrXYlDUx1A";
-
-        return DBConnection.createConnection(DBUrl,DBUsereName,Password,billingCon);
+        DBConnection.billingCon=DBConnection.createConnection(DBUrl,DBUsereName,Password);
+        return billingCon;
     }
     public static Connection getBillingCon (){
         if (billingCon != null){

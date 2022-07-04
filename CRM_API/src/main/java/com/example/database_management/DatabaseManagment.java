@@ -203,7 +203,7 @@ public class DatabaseManagment {
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
             jsonObject.put("email",rs.getString("email"));
-            jsonObject.put("msisdn",rs.getString("msisdn"));
+            jsonObject.put("msisdn", "+"+rs.getString("msisdn").substring(2));
         }
         return jsonObject;
     }
