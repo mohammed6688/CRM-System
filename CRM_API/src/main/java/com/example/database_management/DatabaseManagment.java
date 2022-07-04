@@ -117,7 +117,7 @@ public class DatabaseManagment {
 //                    + " regarding " + Description
 //                    + " and the problem is being solved.", to);
 //            SMS.endTicket(phone, TicketID, Description);
-                
+                addTicketToHistory(ticket);
             }
         }
         return json.put("TicketID", TicketID).toString();
@@ -209,5 +209,15 @@ public class DatabaseManagment {
         return jsonObject;
     }
 
+    private void addTicketToHistory (Ticket ticket) throws SQLException {
+        PreparedStatement stmt = con.prepareStatement("insert into history (description , prev_ticket_id ,customer_id )"
+                + " values (? , ? , ?) ");
+        stmt.setString(1, ticket.getDescription());
+        stmt.setInt(2, ticket.getId());
+        stmt.setInt(3, ticket.getCustomer_id());
+
+        int checkquery = stmt.executeUpdate();
+
+    }
    
 }
