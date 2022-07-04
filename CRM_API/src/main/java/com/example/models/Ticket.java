@@ -9,6 +9,7 @@ public class Ticket {
     private boolean customer_notification;
     private boolean is_notified ;
 
+    private  String notfication_detailes;
     private int sr_id ; //sr_id;
     private int emp_id_for_creation;
     private int emp_id_for_management;
@@ -31,6 +32,14 @@ public class Ticket {
         this.sr_id = sr_id;
         this.emp_id_for_creation = emp_id_for_creation;
         this.emp_id_for_management = emp_id_for_management;
+    }
+
+    public String getNotfication_detailes() {
+        return notfication_detailes;
+    }
+
+    public void setNotfication_detailes(String notfication_detailes) {
+        this.notfication_detailes = notfication_detailes;
     }
 
     public int getId() {

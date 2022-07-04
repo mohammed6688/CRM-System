@@ -7,7 +7,7 @@
         <packaging>war</packaging>
       </options>
     </properties>
-    <root id="archive" name="CRM_API.war">
+    <root id="archive" name="CRM_API-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="CRM_API:war exploded" />
     </root>
   </artifact>

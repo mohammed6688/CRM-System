@@ -6,7 +6,7 @@
 <%@page import="Schema.Customer"%>
 <%@page import="Database.HandleDB"%>
 
-<%@ include file="header.html" %>
+<%@ include file="header.jsp" %>
 
 <%
     HandleDB db = new HandleDB();
@@ -173,7 +173,7 @@
         queryString = "?" + new URLSearchParams(data).toString();
         console.log(queryString)
 
-        var url = "/postbaidSystem/CheckAddContract" + queryString;
+        var url = "/CRMSite/CheckAddContract" + queryString;
 
         if (window.XMLHttpRequest) {
             request = new XMLHttpRequest();

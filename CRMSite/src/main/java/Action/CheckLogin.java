@@ -7,11 +7,11 @@ package Action;
 import Database.HandleDB;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 //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
 /**
@@ -26,21 +26,15 @@ public class CheckLogin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        HandleDB db = new HandleDB();
         PrintWriter pw = res.getWriter();
-        String userName = req.getParameter("username");
-        String password = req.getParameter("password");
-        boolean isLogin = db.checkLogin(userName, password);
-        if (isLogin) {
+        String level = req.getParameter("level");
+        String teamID = req.getParameter("teamID");
 
             HttpSession session = req.getSession(true);
             session.setAttribute("isAuth", "true");
-            session.setAttribute("name", userName);
-            pw.print("true");
+            session.setAttribute("level", level);
+            session.setAttribute("teamID", teamID);
 
-        } else {
-            pw.print("false");
-
-        }
+        pw.print("true");
     }
 }

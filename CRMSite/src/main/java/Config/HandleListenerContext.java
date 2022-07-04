@@ -5,8 +5,8 @@
 package Config;
 
 import Database.DatabaseConnection;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 /**
  *

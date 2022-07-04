@@ -13,17 +13,17 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -48,7 +48,7 @@ public class LoginFilter implements Filter {
         HttpSession session = reqHttp.getSession(false);
 
         if (session == null) {
-            resHttp.sendRedirect("/postbaidSystem/login.html");
+            resHttp.sendRedirect("/CRMSite/login.html");
 
         } else {
             String loggedIn = (String) session.getAttribute("isAuth");
@@ -57,7 +57,7 @@ public class LoginFilter implements Filter {
                 chain.doFilter(request, response);
 
             } else {
-                resHttp.sendRedirect("/postbaidSystem/login.html");
+                resHttp.sendRedirect("/CRMSite/login.html");
             }
         }
 

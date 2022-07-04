@@ -7,7 +7,7 @@
 <%@page import="Schema.OneTimeFee"%>
 <%@page import="java.util.Vector"%>
 <%@page import="Database.HandleDB"%>
-<%@ include file="header.html" %>
+<%@ include file="header.jsp" %>
 
 <%
     HandleDB db = new HandleDB();
