@@ -56,11 +56,11 @@ public class DatabaseManagment {
         Description = TicketRecieved.getDescription();
         if (checkquery.next()) {
             TicketID = checkquery.getInt("ID");
-            Email.sendemail("Dear customer, we would like to inform you that your request has been"
-                    + " submitted with the number " + TicketID
-                    + " submitted regarding " + Description
-                    + " and the problem is being resolved within 48 working hours", to);
-            SMS.startTicket(phone, TicketID, Description);
+//            Email.sendemail("Dear customer, we would like to inform you that your request has been"
+//                    + " submitted with the number " + TicketID
+//                    + " submitted regarding " + Description
+//                    + " and the problem is being resolved within 48 working hours", to);
+//            SMS.startTicket(phone, TicketID, Description);
 
         }
         return json.put("TicketID", TicketID).toString();
