@@ -117,6 +117,9 @@ public class DatabaseManagment {
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
             TicketID = rs.getInt("ID");
+            if (ticket.getStatus().equalsIgnoreCase("closed")){
+                //send notifcation to the customer
+            }
         }
         return json.put("TicketID", TicketID).toString();
     }
