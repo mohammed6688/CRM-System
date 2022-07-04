@@ -1,5 +1,7 @@
 package com.example.database_management;
 
+import java.sql.SQLException;
+
 public class testmain {
     public static void main (String [] args){
 //        String Driver = "jdbc:postgresql://";
@@ -12,6 +14,13 @@ public class testmain {
 //        String Password = "s4ZDx5MEiWCrXYlDUx1A";
 //
 //        returnonnection.createConnection(DBUrl,DBUsereName,Password);
-        DBConnection.getBillingCon();
+  //      DBConnection.getBillingCon();
+        DatabaseManagment DM =new DatabaseManagment();
+        try {
+            System.out.println((String) DM.getEmailandMSISDN(1).get("email"));
+            System.out.println((String) DM.getEmailandMSISDN(1).get("msisdn"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

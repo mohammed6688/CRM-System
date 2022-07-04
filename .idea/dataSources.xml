@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://bqeanzizwzknlsga1loq-postgresql.services.clever-cloud.com:5432/bqeanzizwzknlsga1loq</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="BillingDB" uuid="9c2b7307-f37e-4127-a13c-f6d9164277f1">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://btxnhqatyjxgjkhmqgvg-postgresql.services.clever-cloud.com:5432/btxnhqatyjxgjkhmqgvg</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

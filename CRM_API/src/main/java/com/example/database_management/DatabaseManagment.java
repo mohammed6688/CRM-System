@@ -129,6 +129,7 @@ public class DatabaseManagment {
         ResultSet rs = stmt.executeQuery();
 
         String result = rsToJsonArray(rs).toString();
+        System.out.println(result);
         return result;
     }
     public String viewTicketHistory (int CustomerId) throws SQLException {
@@ -194,7 +195,7 @@ public class DatabaseManagment {
         }
         return obj;
     }
-    private JSONObject getEmailandMSISDN (int customer_ID) throws SQLException {
+    public JSONObject getEmailandMSISDN (int customer_ID) throws SQLException {
         String email =null;
         JSONObject jsonObject =new JSONObject();
         PreparedStatement stmt = Billingcon.prepareStatement("select cr.email,co.msisdn from contract as co inner join customer as cr on co.cu_id = cr.cu_id where co.con_id = ?  ");
