@@ -52,12 +52,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <a class="nav-link" href="listInvoice.jsp">List Invoices</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="history.jsp?id=<%=session.getAttribute("teamID")%>&c=f"  >History</a>
-
-                    </li>
-
-
 
                     <%  if(level > 0 ) { %>
                     <li class="nav-item">
@@ -70,6 +64,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
                     <li class="nav-item">
                         <a class="nav-link" href="addOneTimeFeeFormat.jsp">Add One Time Fee</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="history.jsp?id=<%=session.getAttribute("teamID")%>&c=f"  >Work</a>
                     </li>
 
                     <% }%>
