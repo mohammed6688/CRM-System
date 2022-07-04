@@ -130,6 +130,16 @@ public class CRM_APi {
         return Result;
     }
 
+    @POST
+    @Path("/getType") @Produces("application/json")
+    @Consumes("application/json")
+    public String getType (String data) throws SQLException {
+        DatabaseManagment DM = new DatabaseManagment();
+        Gson gson = new Gson();
+        GenericId classificationID=gson.fromJson(data,GenericId.class);
+        String Result=DM.getType( classificationID.ID);
+        return Result;
+    }
 
 }
 class CredentialsForLogin {
