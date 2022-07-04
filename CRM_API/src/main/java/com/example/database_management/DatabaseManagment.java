@@ -74,13 +74,14 @@ public class DatabaseManagment {
         String result = rsToJson(rs).toString();
         return result;
     }
-    public String viewTickets(int TeamId) throws SQLException {
+    public String viewTickets(int TeamId ,int level) throws SQLException {
         PreparedStatement stmt = con.prepareStatement("select * from ticket inner join sr_subarea on ticket.sr_id = sr_subarea.id "
                 + " inner join sr_area on  sr_subarea.area_id = sr_area.id"
                 + " inner join sr_type on  sr_area.type_id = sr_type.id                           "
-                + "where sr_type.sr_type = (select category from team where id = ?) ");
+                + "where sr_type.sr_type = (select category from team where id = ?  )and level = ? and status ='open' ");
 
         stmt.setInt(1, TeamId);
+        stmt.setInt(2, level);
         ResultSet rs = stmt.executeQuery();
         String result = rsToJsonArray(rs).toString();
         return result;

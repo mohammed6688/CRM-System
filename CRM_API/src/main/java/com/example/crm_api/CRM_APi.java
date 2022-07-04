@@ -74,8 +74,8 @@ public class CRM_APi {
     public String getTicket (String data) throws SQLException {
         DatabaseManagment DM = new DatabaseManagment();
         Gson gson = new Gson();
-        GenericId teamID=gson.fromJson(data,GenericId.class);
-        String Result=DM.viewTickets(teamID.ID);
+        TeamEssentials team=gson.fromJson(data,TeamEssentials.class);
+        String Result=DM.viewTickets(team.ID, team.level);
         return Result;
     }
     @POST
@@ -176,6 +176,15 @@ class CredentialsForLogin {
 
         public GenericId(int ID) {
             this.ID = ID;
+        }
+    }
+    class TeamEssentials{
+    int ID;
+    int level ;
+
+        public TeamEssentials(int ID, int level) {
+            this.ID = ID;
+            this.level = level;
         }
     }
 
