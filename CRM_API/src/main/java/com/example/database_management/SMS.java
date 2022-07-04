@@ -14,8 +14,8 @@ import com.twilio.rest.api.v2010.account.Message;
 public class SMS {
 
     private static final String ACCOUNT_SID = "AC5136320a729813730fe3a47285a31886";
-    private static final String AUTH_TOKEN = "d81d293af4a29be85cc469f4041edfae";
-    private static final String MY_PHONE = "+16073035175";
+    private static final String AUTH_TOKEN = "9be9e2e1fde28ad886cd935fb4bfb310";
+    private static final String MY_PHONE = "+12055468704";
 
     public static void startTicket(String num, int tck, String text) {
 

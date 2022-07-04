@@ -29,11 +29,12 @@ public class CheckLogin extends HttpServlet {
         PrintWriter pw = res.getWriter();
         String level = req.getParameter("level");
         String teamID = req.getParameter("teamID");
-
-            HttpSession session = req.getSession(true);
-            session.setAttribute("isAuth", "true");
-            session.setAttribute("level", level);
-            session.setAttribute("teamID", teamID);
+        String id = req.getParameter("id");
+        HttpSession session = req.getSession(true);
+        session.setAttribute("isAuth", "true");
+        session.setAttribute("level", level);
+        session.setAttribute("teamID", teamID);
+        session.setAttribute("id", id);
 
         pw.print("true");
     }

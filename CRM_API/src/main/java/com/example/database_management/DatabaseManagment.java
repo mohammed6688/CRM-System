@@ -8,12 +8,15 @@ import org.json.JSONObject;
 
 public class DatabaseManagment {
 
-    private final Connection con;
-    public static String fileNamePdf, to, Description, phone;
+    private static Connection con;
+    private static Connection Billingcon;
+
+    public static String  to , Description, phone;
     public static int TicketID;
 
     public DatabaseManagment() {
         con = DBConnection.getCon();
+        Billingcon = DBConnection.getBillingCon();
     }
 
     public String verfiyLoginForREST(int id, String password) throws SQLException {
@@ -40,7 +43,8 @@ public class DatabaseManagment {
 
     public String submitATicket(Ticket TicketRecieved) throws SQLException {
         JSONObject json = new JSONObject();
-
+        to= (String) getEmailandMSISDN(TicketRecieved.getCustomer_id()).get("email");
+        phone= (String) getEmailandMSISDN(TicketRecieved.getCustomer_id()).get("msisdn");
         PreparedStatement stmt = con.prepareStatement("insert into ticket (description , customer_id ,emp_id_for_creation ,sr_id)"
                 + " values (? , ? , ? , ? ) RETURNING ID");
         stmt.setString(1, TicketRecieved.getDescription());
@@ -49,13 +53,14 @@ public class DatabaseManagment {
         stmt.setInt(4, TicketRecieved.getSr_id());
 
         ResultSet checkquery = stmt.executeQuery();
+        Description = TicketRecieved.getDescription();
         if (checkquery.next()) {
             TicketID = checkquery.getInt("ID");
-            Email.sendemail("Dear customer, we would like to inform you that your request has been"
-                    + " submitted with the number " + TicketID
-                    + " submitted regarding " + Description
-                    + " and the problem is being resolved within 48 working hours", to);
-            SMS.startTicket(phone, TicketID, Description);
+//            Email.sendemail("Dear customer, we would like to inform you that your request has been"
+//                    + " submitted with the number " + TicketID
+//                    + " submitted regarding " + Description
+//                    + " and the problem is being resolved within 48 working hours", to);
+//            SMS.startTicket(phone, TicketID, Description);
 
         }
         return json.put("TicketID", TicketID).toString();
@@ -69,13 +74,14 @@ public class DatabaseManagment {
         String result = rsToJson(rs).toString();
         return result;
     }
-    public String viewTickets(int TeamId) throws SQLException {
+    public String viewTickets(int TeamId ,int level) throws SQLException {
         PreparedStatement stmt = con.prepareStatement("select * from ticket inner join sr_subarea on ticket.sr_id = sr_subarea.id "
                 + " inner join sr_area on  sr_subarea.area_id = sr_area.id"
                 + " inner join sr_type on  sr_area.type_id = sr_type.id                           "
-                + "where sr_type.sr_type = (select category from team where id = ?) ");
+                + "where sr_type.sr_type = (select category from team where id = ?  )and level = ? and status ='open' ");
 
         stmt.setInt(1, TeamId);
+        stmt.setInt(2, level);
         ResultSet rs = stmt.executeQuery();
         String result = rsToJsonArray(rs).toString();
         return result;
@@ -83,6 +89,8 @@ public class DatabaseManagment {
 
     public String  modifyATicket (Ticket ticket) throws SQLException {
         JSONObject json = new JSONObject();
+        //to= (String) getEmailandMSISDN(ticket.getCustomer_id()).get("email");
+        //phone= (String) getEmailandMSISDN(ticket.getCustomer_id()).get("msisdn");
         PreparedStatement stmt = con.prepareStatement( "update ticket SET " +
                 "status=?," +
                 "description=?," +
@@ -90,7 +98,7 @@ public class DatabaseManagment {
                 "customer_notification=?," +
                 "is_notified=?," +
                 "notfication_detailes=?," +
-                "sr_id=?  RETURNING ID");
+                "sr_id=?  where id = ? RETURNING ID");
         Description = ticket.getDescription();
         stmt.setString(1,ticket.getStatus());
         stmt.setString(2,ticket.getDescription());
@@ -99,17 +107,18 @@ public class DatabaseManagment {
         stmt.setBoolean(5,ticket.isIs_notified());
         stmt.setString(6,ticket.getNotfication_detailes());
         stmt.setInt(7,ticket.getSr_id());
+        stmt.setInt(8,ticket.getId());
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
             TicketID = rs.getInt("ID");
             if (ticket.getStatus().equalsIgnoreCase("closed")){
                 //send notifcation to the customer
-                Email.sendemail("Dear customer, we would like to inform you that your request "
-                    + "with the number " + TicketID
-                    + " regarding " + Description
-                    + " and the problem is being solved.", to);
-            SMS.endTicket(phone, TicketID, Description);
-                
+//                Email.sendemail("Dear customer, we would like to inform you that your request "
+//                    + "with the number " + TicketID
+//                    + " regarding " + Description
+//                    + " and the problem is being solved.", to);
+//            SMS.endTicket(phone, TicketID, Description);
+                addTicketToHistory(ticket);
             }
         }
         return json.put("TicketID", TicketID).toString();
@@ -121,11 +130,12 @@ public class DatabaseManagment {
         stmt.setInt(1, CustomerId);
         ResultSet rs = stmt.executeQuery();
 
-        String result = rsToJson(rs).toString();
+        String result = rsToJsonArray(rs).toString();
+        System.out.println(result);
         return result;
     }
     public String viewTicketHistory (int CustomerId) throws SQLException {
-        PreparedStatement stmt = con.prepareStatement("select * from history where customer_id = ?  ");
+        PreparedStatement stmt = con.prepareStatement("select * from ticket where customer_id = ? and status ='closed' ");
         stmt.setInt(1, CustomerId);
         ResultSet rs = stmt.executeQuery();
         String result = rsToJsonArray(rs).toString();
@@ -187,6 +197,28 @@ public class DatabaseManagment {
         }
         return obj;
     }
+    public JSONObject getEmailandMSISDN (int customer_ID) throws SQLException {
+        String email =null;
+        JSONObject jsonObject =new JSONObject();
+        PreparedStatement stmt = Billingcon.prepareStatement("select cr.email,co.msisdn from contract as co inner join customer as cr on co.cu_id = cr.cu_id where co.con_id = ?  ");
+        stmt.setInt(1, customer_ID);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            jsonObject.put("email",rs.getString("email"));
+            jsonObject.put("msisdn", "+"+rs.getString("msisdn").substring(2));
+        }
+        return jsonObject;
+    }
 
+    private void addTicketToHistory (Ticket ticket) throws SQLException {
+        PreparedStatement stmt = con.prepareStatement("insert into history (description , prev_ticket_id ,customer_id )"
+                + " values (? , ? , ?) ");
+        stmt.setString(1, ticket.getDescription());
+        stmt.setInt(2, ticket.getId());
+        stmt.setInt(3, ticket.getCustomer_id());
+
+        int checkquery = stmt.executeUpdate();
+
+    }
    
 }
