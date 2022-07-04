@@ -125,6 +125,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     JSON.stringify({ "ID": id_var , "password" : password_var});
                     $.ajax({
                         method : "POST",
+                        contentType: "application/json; charset=utf-8",
                         dataType: "json",
 
                         data:JSON.stringify(data),
@@ -135,7 +136,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         headers:{
 
                         },
-                        contentType: "application/json",
 
                         success: function (data) {
                             console.log(data);

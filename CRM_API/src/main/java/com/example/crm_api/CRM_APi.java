@@ -17,7 +17,7 @@ import java.sql.SQLException;
 public class CRM_APi {
     @POST
     @Path("/test")
-    @Produces({MediaType.TEXT_PLAIN})
+    @Produces({MediaType.APPLICATION_JSON})
     public Response index() {
         return Response
                 .status(200)
@@ -26,7 +26,7 @@ public class CRM_APi {
                 .header("Access-Control-Allow-Headers",
                         "origin, content-type, accept, authorization")
                 .header("Access-Control-Allow-Methods",
-                        "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+                        "GET, POST, PUT, DELETE, HEAD")
                 .entity("")
                 .build();
     }
@@ -35,8 +35,9 @@ public class CRM_APi {
     public String hello() {
         return "Hello, World!";
     }
-    @GET
+    @POST
     @Path("/getTicketByID") @Produces("application/json")
+    @Consumes("application/json")
     public String getTicketByID (String data) throws SQLException {
         DatabaseManagment DM = new DatabaseManagment();
         Gson gson = new Gson();
@@ -45,8 +46,9 @@ public class CRM_APi {
         return Result;
     }
     //agents
-    @GET
+    @POST
     @Path("/getOpenTicket") @Produces("application/json")
+    @Consumes("application/json")
     public String getOpentTicket (String data) throws SQLException {
         DatabaseManagment DM = new DatabaseManagment();
         Gson gson = new Gson();
@@ -55,8 +57,9 @@ public class CRM_APi {
         return Result;
     }
     //history
-    @GET
+    @POST
     @Path("/getTicketHistory") @Produces("application/json")
+    @Consumes("application/json")
     public String getTicketHistory (String data) throws SQLException {
         DatabaseManagment DM = new DatabaseManagment();
         Gson gson = new Gson();
@@ -65,8 +68,9 @@ public class CRM_APi {
         return Result;
     }
     // support
-    @GET
+    @POST
     @Path("/getTickets") @Produces("application/json")
+    @Consumes("application/json")
     public String getTicket (String data) throws SQLException {
         DatabaseManagment DM = new DatabaseManagment();
         Gson gson = new Gson();
@@ -76,6 +80,7 @@ public class CRM_APi {
     }
     @POST
     @Path("/submitTicket") @Produces("application/json")
+    @Consumes("application/json")
     public String SubmitATicket (String data) throws SQLException {
         DatabaseManagment DM = new DatabaseManagment();
         Gson gson = new Gson();
@@ -84,6 +89,7 @@ public class CRM_APi {
     }
     @POST
     @Path("/modifyTicket") @Produces("application/json")
+    @Consumes("application/json")
     public String modifyTicket (String data) throws SQLException {
         DatabaseManagment DM = new DatabaseManagment();
         Gson gson = new Gson();
@@ -114,12 +120,13 @@ public class CRM_APi {
                 .entity(re)
                 .build();
     }
-    @GET
+    @POST
     @Path("/getClassifications") @Produces("application/json")
+    @Consumes("application/json")
     public String getClassifications () throws SQLException {
         DatabaseManagment DM = new DatabaseManagment();
-        String Result =null;
-      //  String Result=DM.getClassifications();
+
+        String Result=DM.getClassifications();
         return Result;
     }
 

@@ -137,6 +137,12 @@ public class DatabaseManagment {
         String result = rsToJsonArray(rs).toString();
         return result;
     }
+    public String getClassifications() throws SQLException {
+        PreparedStatement stmt = con.prepareStatement("select * from sr_classification ");
+        ResultSet rs = stmt.executeQuery();
+        String result = rsToJsonArray(rs).toString();
+        return result;
+    }
     private JSONArray rsToJsonArray(ResultSet rs) throws SQLException {
 
         JSONArray jsonArray = new JSONArray();
