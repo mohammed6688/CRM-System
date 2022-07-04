@@ -144,13 +144,19 @@ public class DatabaseManagment {
         return result;
     }
     public String getType(int classificationID) throws SQLException {
-        PreparedStatement stmt = con.prepareStatement("select * from sr_type where id = ?");
+        PreparedStatement stmt = con.prepareStatement("select * from sr_type where classification_id = ?");
         stmt.setInt(1, classificationID);
         ResultSet rs = stmt.executeQuery();
         String result = rsToJsonArray(rs).toString();
         return result;
     }
-
+    public String getArea(int TypeID) throws SQLException {
+        PreparedStatement stmt = con.prepareStatement("select * from sr_area where id = ?");
+        stmt.setInt(1, TypeID);
+        ResultSet rs = stmt.executeQuery();
+        String result = rsToJsonArray(rs).toString();
+        return result;
+    }
     private JSONArray rsToJsonArray(ResultSet rs) throws SQLException {
 
         JSONArray jsonArray = new JSONArray();
