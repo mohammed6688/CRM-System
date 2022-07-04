@@ -3,7 +3,7 @@
     Created on : Apr 25, 2022, 5:16:49 PM
     Author     : ahmedmedhat
 --%>
-<%@ include file="header.html" %>
+<%@ include file="header.jsp" %>
 
 <div class="addRate-form">
     <h1><center>Add Rate Plan</center></h1>  
@@ -88,7 +88,7 @@
         let data = new FormData(form);
         // Convert to a query string
         queryString = "?" + new URLSearchParams(data).toString();
-        var url = "/postbaidSystem/CheckAddRatePlan" + queryString;
+        var url = "/CRMSite/CheckAddRatePlan" + queryString;
 
         if (window.XMLHttpRequest) {
             request = new XMLHttpRequest();

@@ -27,12 +27,14 @@ public class CheckLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         PrintWriter pw = res.getWriter();
-        String userName = req.getParameter("username");
-        String password = req.getParameter("password");
+        String level = req.getParameter("level");
+        String teamID = req.getParameter("teamID");
 
             HttpSession session = req.getSession(true);
             session.setAttribute("isAuth", "true");
-            session.setAttribute("name", userName);
-            pw.print("true");
+            session.setAttribute("level", level);
+            session.setAttribute("teamID", teamID);
+
+        pw.print("true");
     }
 }

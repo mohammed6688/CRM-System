@@ -17,6 +17,7 @@ import java.sql.SQLException;
 public class CRM_APi {
     @POST
     @Path("/test")
+    @Produces({MediaType.TEXT_PLAIN})
     public Response index() {
         return Response
                 .status(200)
@@ -26,7 +27,7 @@ public class CRM_APi {
                         "origin, content-type, accept, authorization")
                 .header("Access-Control-Allow-Methods",
                         "GET, POST, PUT, DELETE, OPTIONS, HEAD")
-                .entity("hiiii")
+                .entity("")
                 .build();
     }
     @GET
@@ -91,10 +92,9 @@ public class CRM_APi {
     }
 
     @POST
-    @Path("/Login")
-    @Produces("application/json")
+    @Path("/Login") @Produces("application/json")
     @Consumes("application/json")
-    @XmlHeader("Access-Control-Allow-Origin")
+   // @XmlHeader("Access-Control-Allow-Origin")
     public Response checkLogin (String credintials) throws SQLException {
         DBConnection.getCon();
         DatabaseManagment DM = new DatabaseManagment();
@@ -102,7 +102,7 @@ public class CRM_APi {
         CredentialsForLogin Clogin=gson.fromJson(credintials,CredentialsForLogin.class);
         System.out.println(Clogin.ID);
         System.out.println(Clogin.password);
-        String res = DM.verfiyLoginForREST(Clogin.ID, Clogin.password);
+        String re =  DM.verfiyLoginForREST(Clogin.ID, Clogin.password);
         return Response
                 .status(200)
                 .header("Access-Control-Allow-Origin", "*")
@@ -110,8 +110,8 @@ public class CRM_APi {
                 .header("Access-Control-Allow-Headers",
                         "origin, content-type, accept, authorization")
                 .header("Access-Control-Allow-Methods",
-                        "GET, POST, PUT, DELETE, OPTIONS, HEAD")
-                .entity(res)
+                        "POST")
+                .entity(re)
                 .build();
     }
     @GET

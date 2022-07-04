@@ -1,8 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ include file="header.html" %>
+<%@ include file="header.jsp" %>
 <div class="main-page">
 
-<!--    <h1><center>Administration Home Page</center></h1>
+    <h1><center>Administration Home Page</center></h1>
     <form id="searchBYNationalId">  
 
         <div class="input-form">
@@ -16,7 +16,7 @@
 
         <p id="error-login"></p>
 
-    </form>  -->
+    </form>
 
 </div>
 <%@ include file="footer.html" %>
@@ -32,7 +32,7 @@
         // Convert to a query string
         queryString = "?" + new URLSearchParams(data).toString();
 
-        var url = "/postbaidSystem/CheckNationalId" + queryString;
+        var url = "/CRMSite/CheckNationalId" + queryString;
 
         if (window.XMLHttpRequest) {
             request = new XMLHttpRequest();
@@ -58,7 +58,7 @@
             console.log(res)
             if (request.responseText.split("___")[0] == "true") {
 
-                var url = "http://localhost:8080/postbaidSystem/detailsUser.jsp?id=" +
+                var url = "http://localhost:8080/CRMSite/detailsUser.jsp?id=" +
                         request.responseText.split("___")[1] + "&name=" + request.responseText.split("___")[2]
                         + "&email=" + request.responseText.split("___")[3];
                 window.location.replace(url);

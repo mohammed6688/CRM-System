@@ -3,7 +3,7 @@
     Created on : Apr 25, 2022, 5:16:49 PM
     Author     : ahmedmedhat
 --%>
-<%@ include file="header.html" %>
+<%@ include file="header.jsp" %>
 
 <div class="addUser-form">
     <h1><center>Add New User</center></h1>  
@@ -48,7 +48,7 @@
         // Convert to a query string
         queryString = "?" + new URLSearchParams(data).toString();
 
-        var url = "/postbaidSystem/CheckAddUser" + queryString;
+        var url = "/CRMSite/CheckAddUser" + queryString;
 
         if (window.XMLHttpRequest) {
             request = new XMLHttpRequest();

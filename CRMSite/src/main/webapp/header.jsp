@@ -1,3 +1,5 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <!--
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -27,20 +29,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
                 <!-- Links -->
                 <ul class="navbar-nav">
-                     <li class="nav-item">
-                        <a class="nav-link" href="viewUser.jsp">List Users</a>
-                    </li>
+                    <% int level = Integer.parseInt((String) session.getAttribute("level"));
+                    System.out.println(level); %>
+
                     <li class="nav-item">
                         <a class="nav-link" href="addUserForm.jsp">Add user</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="viewRatePlan.jsp">List Rate Plan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="addRatePlan.jsp">Add Rate Plan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="addOneTimeFeeFormat.jsp">Add One Time Fee</a>
                     </li>
 
                     <li class="nav-item">
@@ -60,6 +56,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <li class="nav-item">
                         <a class="nav-link" href="history.jsp">History</a>
                     </li>
+
+
+
+                    <%  if(level > 0 ) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="viewUser.jsp">List Users</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="addRatePlan.jsp">Add Rate Plan</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="addOneTimeFeeFormat.jsp">Add One Time Fee</a>
+                    </li>
+
+                    <% }%>
+
+
                     <li class="nav-item">
                         <a class="nav-link" href="Logout">Logout</a>
                     </li>
@@ -68,6 +83,3 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             </nav>
         </div>  
         <div class="content">
-
-
-

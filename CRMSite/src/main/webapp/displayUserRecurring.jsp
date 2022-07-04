@@ -10,7 +10,7 @@
 <%@page import="Schema.Customer"%>
 <%@page import="Database.HandleDB"%>
 
-<%@ include file="header.html" %>
+<%@ include file="header.jsp" %>
 
 <%
     HandleDB db = new HandleDB();
@@ -121,7 +121,7 @@
         queryString = "?" + new URLSearchParams(data).toString();
         console.log(queryString)
 
-        var url = "/postbaidSystem/CheckAddCustomerRecurring" + queryString;
+        var url = "/CRMSite/CheckAddCustomerRecurring" + queryString;
 
         if (window.XMLHttpRequest) {
             request = new XMLHttpRequest();

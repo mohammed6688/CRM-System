@@ -126,23 +126,67 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     $.ajax({
                         method : "POST",
                         dataType: "json",
-                        url: "http://localhost:8081/CRM_API/api/CRM/Login",
 
-                       data: (data) ? JSON.stringify(data) : "",
-                        contentType: "application/json;",
+                        data:JSON.stringify(data),
+                        url: "http://localhost:8081/CRM_API/api/CRM/Login",
+                        xhrField:{
+                            withCredentials:'false',
+                        },
+                        headers:{
+
+                        },
+                        contentType: "application/json",
 
                         success: function (data) {
                             console.log(data);
+                            if(data.login=="true")
+                            {
+                                queryString = "?" + "level="+data.level+"&teamID="+data.teamID;
+                                var url = "/CRMSite/CheckLogin" + queryString;
+
+                                if (window.XMLHttpRequest) {
+                                    request = new XMLHttpRequest();
+                                } else if (window.ActiveXObject) {
+                                    request = new ActiveXObject("Microsoft.XMLHTTP");
+                                }
+
+                                try {
+                                    request.onreadystatechange = sendInfo;
+                                    request.open("POST", url, true);
+                                    request.send();
+
+                                } catch (e) {
+                                    alert("Unable to connect server");
+                                }
+                                function sendInfo() {
+                                    if (request.readyState == 4) {
+                                        //            var res = JSON.parse(request.responseText);
+                                        if (request.responseText == "true") {
+                                            window.location.replace("http://localhost:8080/CRMSite/mainPage.jsp");
+                                        } else {
+                                            document.getElementById("error-login").innerHTML = "Wrong user name or password ";
+                                        }
+                                    }
+                                }
+
+                            }
+                                else{
+                                document.getElementById("error-login").innerHTML = "Wrong user name or password "
+                            }
 
 // forword
                         },
                         error: function (resp) {
                             console.log(resp);
+                            document.getElementById("error-login").innerHTML = "Wrong user name or password "
                         }
                     });
                 }
             });
 
+            // $(document).ajaxStop(function () {
+            //     window.location.reload();
+            // });
 
         });
     </script>
@@ -154,6 +198,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 <!--            // Get all field data from the form-->
 <!--            let data = new FormData(form);-->
 <!--            // Convert to a query string-->
+
 <!--            queryString = "?" + new URLSearchParams(data).toString();-->
 
 <!--            var url = "/postbaidSystem/CheckLogin" + queryString;-->

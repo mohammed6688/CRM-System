@@ -25,7 +25,7 @@ public class Logout extends HttpServlet {
         if (session != null) {
             session.invalidate();
         }
-        response.sendRedirect("/postbaidSystem/login.html");
+        response.sendRedirect("/CRMSite/login.html");
 
     }
 }

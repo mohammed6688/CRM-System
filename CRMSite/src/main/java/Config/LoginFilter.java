@@ -48,7 +48,7 @@ public class LoginFilter implements Filter {
         HttpSession session = reqHttp.getSession(false);
 
         if (session == null) {
-            resHttp.sendRedirect("/postbaidSystem/login.html");
+            resHttp.sendRedirect("/CRMSite/login.html");
 
         } else {
             String loggedIn = (String) session.getAttribute("isAuth");
@@ -57,7 +57,7 @@ public class LoginFilter implements Filter {
                 chain.doFilter(request, response);
 
             } else {
-                resHttp.sendRedirect("/postbaidSystem/login.html");
+                resHttp.sendRedirect("/CRMSite/login.html");
             }
         }
 

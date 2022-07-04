@@ -9,7 +9,7 @@
 <%@page import="Schema.Customer"%>
 <%@page import="Database.HandleDB"%>
 
-<%@ include file="header.html" %>
+<%@ include file="header.jsp" %>
 
 <div class="viewUsers">
     <h1><center>All Customers Data</center></h1>
