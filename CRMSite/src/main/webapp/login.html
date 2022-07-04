@@ -141,7 +141,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             console.log(data);
                             if(data.login=="true")
                             {
-                                queryString = "?" + "level="+data.level+"&teamID="+data.teamID;
+                                queryString = "?" + "level="+data.level+"&teamID="+data.teamID+"&id="+id_var;
                                 var url = "/CRMSite/CheckLogin" + queryString;
 
                                 if (window.XMLHttpRequest) {
