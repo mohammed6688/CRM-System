@@ -63,8 +63,8 @@ public class CRM_APi {
     public String getTicketHistory (String data) throws SQLException {
         DatabaseManagment DM = new DatabaseManagment();
         Gson gson = new Gson();
-        GenericId teamID=gson.fromJson(data,GenericId.class);
-        String Result=DM.viewTicketHistory(teamID.ID);
+        GenericId CutomerID=gson.fromJson(data,GenericId.class);
+        String Result=DM.viewTicketHistory(CutomerID.ID);
         return Result;
     }
     // support
@@ -161,8 +161,7 @@ public class CRM_APi {
         String Result=DM.getSubArea( AreaID.ID);
         return Result;
     }
-
-}
+  }
 class CredentialsForLogin {
     int ID;
     String password;
