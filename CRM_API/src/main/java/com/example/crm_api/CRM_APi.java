@@ -140,6 +140,27 @@ public class CRM_APi {
         String Result=DM.getType( classificationID.ID);
         return Result;
     }
+    @POST
+    @Path("/getArea") @Produces("application/json")
+    @Consumes("application/json")
+    public String getArea (String data) throws SQLException {
+        DatabaseManagment DM = new DatabaseManagment();
+        Gson gson = new Gson();
+        GenericId TypeID=gson.fromJson(data,GenericId.class);
+        String Result=DM.getArea( TypeID.ID);
+        return Result;
+    }
+
+    @POST
+    @Path("/getSubArea") @Produces("application/json")
+    @Consumes("application/json")
+    public String getSubArea (String data) throws SQLException {
+        DatabaseManagment DM = new DatabaseManagment();
+        Gson gson = new Gson();
+        GenericId AreaID=gson.fromJson(data,GenericId.class);
+        String Result=DM.getSubArea( AreaID.ID);
+        return Result;
+    }
 
 }
 class CredentialsForLogin {

@@ -151,8 +151,15 @@ public class DatabaseManagment {
         return result;
     }
     public String getArea(int TypeID) throws SQLException {
-        PreparedStatement stmt = con.prepareStatement("select * from sr_area where id = ?");
+        PreparedStatement stmt = con.prepareStatement("select * from sr_area where type_id = ?");
         stmt.setInt(1, TypeID);
+        ResultSet rs = stmt.executeQuery();
+        String result = rsToJsonArray(rs).toString();
+        return result;
+    }
+    public String getSubArea(int AreaID) throws SQLException {
+        PreparedStatement stmt = con.prepareStatement("select * from sr_subarea where area_id = ?");
+        stmt.setInt(1, AreaID);
         ResultSet rs = stmt.executeQuery();
         String result = rsToJsonArray(rs).toString();
         return result;
