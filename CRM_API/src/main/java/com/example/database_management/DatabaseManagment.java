@@ -60,7 +60,7 @@ public class DatabaseManagment {
 //                    + " submitted with the number " + TicketID
 //                    + " submitted regarding " + Description
 //                    + " and the problem is being resolved within 48 working hours", to);
-//            SMS.startTicket(phone, TicketID, Description);
+            SMS.startTicket(phone, TicketID, Description);
 
         }
         return json.put("TicketID", TicketID).toString();
@@ -117,7 +117,7 @@ public class DatabaseManagment {
 //                    + "with the number " + TicketID
 //                    + " regarding " + Description
 //                    + " and the problem is being solved.", to);
-//            SMS.endTicket(phone, TicketID, Description);
+            SMS.endTicket(phone, TicketID, Description);
                 addTicketToHistory(ticket);
             }
         }
