@@ -134,7 +134,7 @@ public class DatabaseManagment {
         return result;
     }
     public String viewTicketHistory (int CustomerId) throws SQLException {
-        PreparedStatement stmt = con.prepareStatement("select * from history where customer_id = ?  ");
+        PreparedStatement stmt = con.prepareStatement("select * from ticket where customer_id = ? and status ='closed' ");
         stmt.setInt(1, CustomerId);
         ResultSet rs = stmt.executeQuery();
         String result = rsToJsonArray(rs).toString();
