@@ -88,8 +88,8 @@ public class DatabaseManagment {
 
     public String  modifyATicket (Ticket ticket) throws SQLException {
         JSONObject json = new JSONObject();
-        to= (String) getEmailandMSISDN(ticket.getCustomer_id()).get("email");
-        phone= (String) getEmailandMSISDN(ticket.getCustomer_id()).get("msisdn");
+        //to= (String) getEmailandMSISDN(ticket.getCustomer_id()).get("email");
+        //phone= (String) getEmailandMSISDN(ticket.getCustomer_id()).get("msisdn");
         PreparedStatement stmt = con.prepareStatement( "update ticket SET " +
                 "status=?," +
                 "description=?," +
@@ -112,11 +112,11 @@ public class DatabaseManagment {
             TicketID = rs.getInt("ID");
             if (ticket.getStatus().equalsIgnoreCase("closed")){
                 //send notifcation to the customer
-                Email.sendemail("Dear customer, we would like to inform you that your request "
-                    + "with the number " + TicketID
-                    + " regarding " + Description
-                    + " and the problem is being solved.", to);
-            SMS.endTicket(phone, TicketID, Description);
+//                Email.sendemail("Dear customer, we would like to inform you that your request "
+//                    + "with the number " + TicketID
+//                    + " regarding " + Description
+//                    + " and the problem is being solved.", to);
+//            SMS.endTicket(phone, TicketID, Description);
                 
             }
         }

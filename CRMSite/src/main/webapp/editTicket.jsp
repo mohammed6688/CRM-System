@@ -5,10 +5,6 @@
   Time: 3:18 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@page import="java.util.Vector"%>
-<%@page import="Schema.Customer"%>
-<%@page import="Database.HandleDB"%>
 
 <%@ include file="header.jsp" %>
 
@@ -18,13 +14,13 @@
     <form id="editTicket">
 
         <div class="input-form">
-            <label for="ID">ID</label>
-            <input type="text" disabled placeholder="Enter Name Rate Plan" name="ID" id="ID" required><br>
+            <label for="IDT">ID</label>
+            <input type="text" disabled placeholder="Enter Name Rate Plan" name="IDT" id="IDT" required><br>
         </div>
 
         <div class="input-form">
             <label for="sr_id">SR ID</label>
-            <input type="text"  name="sr_id" id="sr_id" required><br>
+            <input type="text" disabled name="sr_id" id="sr_id" required><br>
         </div>
 
         <div class="input-form">
@@ -81,10 +77,42 @@
 
 <script>
 
+    let setID = document.getElementById('IDT');
+    let setsr_id = document.getElementById('sr_id');
+    let setdescription = document.getElementById('description');
+    let setemp_id_for_management = document.getElementById('emp_id_for_management');
+    let setnotfication_detailes = document.getElementById('notfication_detailes');
+    let setcustomer_notification = document.getElementById('customer_notification');
+    let setis_notified= document.getElementById('is_notified');
+    let setstatus = document.getElementById('status');
+
+    // request to get data for specific ticket id
+    const xhttp = new XMLHttpRequest();
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get('id');
+    xhttp.onload = function() {
+        var res = JSON.parse(this.responseText);
+        console.log(res)
+        setID.value = res.id;
+        setsr_id.value = res.sr_id;
+        setdescription.value = res.description;
+        setemp_id_for_management.value = res.emp_id_for_management || "0";
+        setnotfication_detailes.value = res.notfication_detailes || " ";
+        setcustomer_notification.value = res.customer_notification;
+        setis_notified.value = res.is_notified || "false";
+        setstatus.value = res.status;
+
+
+    }
+    xhttp.open("POST", "http://localhost:8081/CRM_API/api/CRM/getTicketByID");
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify({"ID": id}));
+
     $(document).ready(function () {
         $("#form_edit_ticket").click(function (event) {
             event.preventDefault();
-            var ID = $('#ID').val();
+            var ID = $('#IDT').val();
             var sr_id = $('#sr_id').val();
             var description = $('#description').val();
             var emp_id_for_management = $('#emp_id_for_management').val();
@@ -93,8 +121,9 @@
             var status = $('#status').val();
             var notfication_detailes = $('#notfication_detailes').val();
 
-            if (id_var !=''&&password_var!='') {
-                var data = {"ID":  id_var ,"password":  password_var };
+            if (ID !=''&&sr_id!=''&&sr_id!=''&&description!=''&&sr_id!=''&&emp_id_for_management!=''&&customer_notification!=''&&is_notified!=''&&status!=''&&notfication_detailes!='') {
+                var data = {"id":  ID ,"sr_id":  sr_id,"description":  description,"emp_id_for_management":  emp_id_for_management
+                    ,"customer_notification":  customer_notification,"is_notified":  is_notified,"status":  status,"notfication_detailes":notfication_detailes };
                 $.ajax({
                     method : "POST",
                     contentType: "application/json; charset=utf-8",
@@ -111,11 +140,12 @@
 
                     success: function (data) {
                         console.log(data);
-
+                        alert("Done")
 // forword
                     },
                     error: function (resp) {
                         console.log(resp);
+                        alert("Try again")
                     }
                 });
             }

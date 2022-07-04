@@ -218,7 +218,7 @@
                     dataType: "json",
 
                     data:JSON.stringify(data),
-                    url: "http://localhost:8081/CRM_API/api/CRM/submitTicketsubmitTicket",
+                    url: "http://localhost:8081/CRM_API/api/CRM/submitTicket",
                     xhrField:{
                         withCredentials:'false',
                     },

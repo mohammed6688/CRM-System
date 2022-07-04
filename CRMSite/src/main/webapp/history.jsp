@@ -4,10 +4,6 @@
     Author     : Ahmed Medhat
 --%>
 
-<%@page import="java.util.Vector"%>
-<%@page import="Schema.Customer"%>
-<%@page import="Database.HandleDB"%>
-
 <%@ include file="header.jsp" %>
 
 <div class="viewUsers">
@@ -94,7 +90,8 @@ table.innerHTML="<thead><tr> <th>id</th> <th>emp_id_for_creation</th> <th>descri
                 customer_id.innerHTML = val.customer_id;
                 status.innerHTML = val.status;
                 customer_notification.innerHTML = val.customer_notification;
-                modify.innerHTML = "<a href="editTicket.jsp"></a>";
+console.log(val.id);
+                modify.innerHTML = val.status=="open" ? "<a href=editTicket.jsp?id="+val.id+ " class='btn btn-primary' role='button'>Edit</a>" : " ";
 
             })
         }
