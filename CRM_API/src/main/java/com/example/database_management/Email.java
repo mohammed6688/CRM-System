@@ -22,7 +22,9 @@ import javax.mail.internet.MimeMultipart;
  */
 public class Email {
 private static final String FROM = "crmteam.iti@gmail.com";
-private static final String PASS = "123456crmteam@";
+//private static final String PASS = "123456crmteam@";
+//    private static final String PASS = "lzhkjoooyszhzafr";
+    private static final String PASS = "nfqvevnbadyuynko";
     public static void sendemail(String text, String to) {
 
         // Sender's email ID needs to be mentioned

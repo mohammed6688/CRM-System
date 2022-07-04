@@ -97,7 +97,7 @@ public class DatabaseManagment {
                 "customer_notification=?," +
                 "is_notified=?," +
                 "notfication_detailes=?," +
-                "sr_id=?  RETURNING ID");
+                "sr_id=?  where id = ? RETURNING ID");
         Description = ticket.getDescription();
         stmt.setString(1,ticket.getStatus());
         stmt.setString(2,ticket.getDescription());
@@ -106,6 +106,7 @@ public class DatabaseManagment {
         stmt.setBoolean(5,ticket.isIs_notified());
         stmt.setString(6,ticket.getNotfication_detailes());
         stmt.setInt(7,ticket.getSr_id());
+        stmt.setInt(8,ticket.getId());
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
             TicketID = rs.getInt("ID");
