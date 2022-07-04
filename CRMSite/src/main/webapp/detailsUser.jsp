@@ -122,8 +122,13 @@
             </div> 
             <div class="card-footer d-flex justify-content-around">
 <!--                <a href="#" class="btn btn-info" role="button">Change Rate Plan</a>-->
-                <a href="addTicket.jsp?cid=<%=contract.getId()%>" class="btn btn-info" role="button">Add One time fee</a>
-                <a href="addTicket.jsp?cid=<%=contract.getId()%>&msisdn=<%=contract.getMsisdn()%>" class="btn btn-info" role="button">Open Ticket</a>
+                <a href="addTicket.jsp?cid=<%=contract.getId()%>" class="btn btn-info mr-4" role="button">Add One time fee</a>
+                <a href="addTicket.jsp?cid=<%=contract.getId()%>&msisdn=<%=contract.getMsisdn()%>" class="btn btn-dark" role="button">Open The Ticket</a>
+
+
+                <a href="history.jsp?cid=<%=contract.getId()%>&msisdn=<%=contract.getMsisdn()%>" class="btn btn-dark" role="button">Show Tickets</a>
+
+
 
             </div>
         </div>

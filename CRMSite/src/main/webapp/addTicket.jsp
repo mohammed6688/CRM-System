@@ -20,7 +20,6 @@
         <label for="classification">Classification: </label><br>
         <select class="form-control" name="classification" id="classification">
             <option value=""></option>
-
         </select><br>
 
         <label for="type">Type: </label><br>
@@ -228,7 +227,7 @@
                     },
 
                     success: function (data) {
-                        alert("Ticket number : "+ data.)
+                        alert("Ticket number : "+ data.TicketID)
                         console.log(data);
                     },
                     error: function (resp) {

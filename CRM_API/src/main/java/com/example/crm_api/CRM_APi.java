@@ -52,8 +52,8 @@ public class CRM_APi {
     public String getOpentTicket (String data) throws SQLException {
         DatabaseManagment DM = new DatabaseManagment();
         Gson gson = new Gson();
-        GenericId teamID=gson.fromJson(data,GenericId.class);
-        String Result=DM.viewOpenTicket(teamID.ID);
+        GenericId CutomerID=gson.fromJson(data,GenericId.class);
+        String Result=DM.viewOpenTicket(CutomerID.ID);
         return Result;
     }
     //history
